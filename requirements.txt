@@ -9,3 +9,4 @@ plotly
 ipywidgets
 shap
 networkx
+xgboost
