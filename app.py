@@ -28,7 +28,7 @@ import networkx
 st.set_page_config(
     page_title="Shapley value explanations",
     # page_icon="xai.jpeg",
-    layout="centered",
+    layout="wide",
 )
 #plt.style.use('dark_background')
 df = pd.read_csv('data/results.csv')
@@ -108,7 +108,7 @@ def plot_bar_repl(df):
     st.pyplot(fig)
 
 def plot_shap_fig(shap_vals):
-    fig = plt.figure(figsize=(15, 5))
+    fig = plt.figure(figsize=(20, 5))
     shap.plots.waterfall(shap_vals[0])
     st.pyplot(fig)
 
@@ -475,6 +475,23 @@ def wilcoxon_holm(alpha=0.05, df_perf=None, strategy='classifier_name', metric='
     # return the p-values and the average ranks
     return p_values, average_ranks, max_nb_datasets
 
+def dataframe_with_selections(df):
+    df_with_selections = df.copy()
+    df_with_selections.insert(0, "Select", False)
+
+    # Get dataframe row-selections from user with st.data_editor
+    edited_df = st.data_editor(
+        df_with_selections,
+        hide_index=True,
+        column_config={"Select": st.column_config.CheckboxColumn(required=True)},
+        disabled=df.columns,
+        width=2000,
+        height=250
+    )
+
+    # Filter the dataframe using the temporary column, then drop the column
+    selected_rows = edited_df[edited_df.Select]
+    return selected_rows.drop('Select', axis=1)
 
 st.title(":primaryColor[Model explanations using Shapley values]")
 tab_desc, tab_framework, tab_acc, tab_time, tab_diy = st.tabs(["Description", "Evaluation", "Accuracy", "Compute time", "Upload your own"])  
@@ -965,18 +982,20 @@ with tab_time:
 with tab_diy:
     col1, col2, col3 = st.columns([0.25, 5, 0.25])
     with col2:
-        col11, col12, col13 = st.columns([1, 1, 1])
+        data = None
+        col11, col12 = st.columns([1, 1])
         with col11:
             data_file = st.file_uploader("Upload a Data File (Must be a CSV file): ", type="csv")
             if data_file is not None:
                 data = pd.read_csv(data_file).iloc[:, 1:]
-
                 X = data.iloc[:, :-1]
                 y = data.iloc[:, -1]
                 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=0)
+
             else:
                 st.warning("Please upload a .csv data file.")
 
+        
         with col12:
             model_file = st.file_uploader('Upload Model File (Must be a Pickle file):', type=['pkl'])
             model_load = None
@@ -986,22 +1005,46 @@ with tab_diy:
                 st.warning("Please upload a .pkl model file.")
 
 
-        with col13:
-            shap_vals = None
-            instance_file = st.file_uploader("Upload an Instance File (Must be a CSV file): ", type="csv")
-            if model_load is not None:
-                exp = shap.explainers.Exact(model_load.predict, X_train)
-            if instance_file is not None:
-                instance = pd.read_csv(instance_file)
-                # shap_vals = exp.shap_values(instance)
-                shap_vals = exp(instance)
-            else:
-                st.warning("Please upload a .csv instance file.")
 
-        col1, col2, col3 = st.columns([0.4, 2, 0.4])
-        with col2:
-            if shap_vals is not None:
-                plot_shap_fig(shap_vals)
+        if data is not None:
+            # st.dataframe(data, height=300)
+            selection = dataframe_with_selections(data)
+
+            if len(selection) != 1:
+                st.error('Shapley values is a local feature attribution technique. Hence, select a single instance to explain!', icon="🚨")
+            else:
+                st.write("Your selection:")
+                st.dataframe(selection, width=2000)
+                shap_vals = None
+                if model_load is not None:
+                    exp = shap.explainers.Exact(model_load.predict, X_train)
+                    shap_vals = exp(selection.iloc[:, :-1])
+                else:
+                    st.error('Please upload a model file to generate explanations!', icon="🚨")
+
+                col1, col2, col3 = st.columns([0.4, 2, 0.4])
+                with col2:
+                    if shap_vals is not None:
+                        with st.container(border=True):
+                            plot_shap_fig(shap_vals)
+        
+        
+        # with col13:
+        #     shap_vals = None
+        #     instance_file = st.file_uploader("Upload an Instance File (Must be a CSV file): ", type="csv")
+        #     if model_load is not None:
+        #         exp = shap.explainers.Exact(model_load.predict, X_train)
+        #     if instance_file is not None:
+        #         instance = pd.read_csv(instance_file)
+        #         # shap_vals = exp.shap_values(instance)
+        #         shap_vals = exp(instance)
+        #     else:
+        #         st.warning("Please upload a .csv instance file.")
+
+        # col1, col2, col3 = st.columns([0.4, 2, 0.4])
+        # with col2:
+        #     if shap_vals is not None:
+        #         plot_shap_fig(shap_vals)
 
 
 
