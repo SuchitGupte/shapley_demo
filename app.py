@@ -28,7 +28,7 @@ import networkx
 st.set_page_config(
     page_title="Shapley value explanations",
     # page_icon="xai.jpeg",
-    layout="wide",
+    layout="centered",
 )
 #plt.style.use('dark_background')
 df = pd.read_csv('data/results.csv')
