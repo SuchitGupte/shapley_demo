@@ -27,8 +27,8 @@ import networkx
 
 st.set_page_config(
     page_title="Shapley value explanations",
-    # page_icon="xai.jpeg",
-    layout="wide",
+    page_icon="logo.png",
+    # layout="wide",
 )
 #plt.style.use('dark_background')
 df = pd.read_csv('data/results.csv')
@@ -483,7 +483,7 @@ def dataframe_with_selections(df):
     edited_df = st.data_editor(
         df_with_selections,
         hide_index=True,
-        column_config={"Select instance": st.column_config.CheckboxColumn(required=True)},
+        column_config={"Select": st.column_config.CheckboxColumn(required=True)},
         disabled=df.columns,
         width=2000,
         height=250
@@ -493,75 +493,74 @@ def dataframe_with_selections(df):
     selected_rows = edited_df[edited_df.Select]
     return selected_rows.drop('Select', axis=1)
 
-st.title(":primaryColor[Model explanations using Shapley values]")
-tab_desc, tab_framework, tab_acc, tab_time, tab_diy = st.tabs(["Description", "Evaluation", "Accuracy", "Compute time", "Upload your own"])  
+with st.container():
+    st.image('title.jpg')
+    # st.title("⚙️🔩 Shapex Engine")
+tab_desc, tab_framework, tab_acc, tab_time, tab_diy = st.tabs(["Description", "Benchmark", "Accuracy", "Compute time", "Upload your own"])  
 
 with tab_desc:
-    col1, col2, col3 = st.columns([0.25, 5, 0.25])
-    with col2:
-        st.markdown('## Shapley value approximations')
-        st.markdown(
-        """
-        Understanding decisions made by machine learning models helps build trust in their predictions, ultimately facilitating their practical application. 
-        Shapley values have emerged as a popular and theoretically robust method for interpreting models by quantifying the contribution of each feature toward individual predictions. 
-        The inherent complexity associated with the computation of Shapley values as an NP-hard problem has driven the development of numerous approximation techniques, leading to a proliferation of options in academic literature. 
-        This abundance of choices has created a substantial gap in determining the most appropriate approach for practical applications. Our study aims to address this gap by evaluating 17 approximation methods across 100 datasets and six model types. 
-        This demonstration is an extension tool that provides users with a dynamic interface to compare different dimensions of Shapley value estimations. 
-        Our platform allows users to effortlessly upload their own dataset and machine learning model, enabling them to obtain detailed explanations for each instance.
-        We generate these explanations using the most accurate Shapley value approximation technique, which we have inferred from our comprehensive evaluation.
-        """
-        )
-        st.markdown(
-        """
-        ## Contributors
+    # col1, col2, col3 = st.columns([0.25, 5, 0.25])
+    # with col2:
+    st.markdown('## Shapley value approximations')
+    st.markdown(
+    """
+    Interpreting decisions made by machine learning models helps build trust in their predictions, ultimately facilitating their practical application. 
+    Shapley values have emerged as a popular and theoretically robust method for interpreting models by quantifying the contribution of each feature toward individual predictions. 
+    The inherent complexity associated with the computation of Shapley values as an NP-hard problem has driven the development of numerous approximation techniques, leading to a proliferation of options in academic literature. 
+    This abundance of choices has created a substantial gap in determining the most appropriate approach for practical applications. 
+    Our study aims to address this gap by evaluating 17 approximation methods across 100 datasets and six model types. 
+    The demonstration tool is an extension of the study that offers users an interactive interface for dynamically comparing various aspects of Shapley value estimates. 
+    Users can experiment with different approximation methods and delve into detailed insights for each aspect of Shapley value approximation. 
+    By providing these insights, we aim to inspire additional exploration in model explanations utilizing Shapley values, advancing the field of explainable Artificial Intelligence. 
+    Our platform also allows users to effortlessly upload their own dataset and machine learning model, enabling them to obtain detailed explanations for each instance. 
+    We generate these explanations using the most accurate Shapley value approximation technique, which we have inferred from our comprehensive evaluation. 
+    """
+    )
 
-        * [Suchit Gupte](https://github.com/SuchitGupte) (Ohio State University)
-        * [John Paparrizos](https://www.paparrizos.org/) (Ohio State University)
-
-        ## Datasets
-
-        For the scope of the study, we focus on regression-based tabular datasets. We utilize a total of 100 publicly available datasets from the UCI Machine Learning Repository.
-        Within the datasets, there are as many as 60 input features, and the number of instances ranges from 100 to 1 million.
-        The figure below illustrates the statistical characteristics of the 100 datasets, explicitly focusing on their dimensions and scale. 
-        Since the Shapley values are a local feature attribution technique, the number of instances in the dataset has a very insignificant impact on generating explanations. 
-        However, the data's dimensionality significantly influences the estimation of Shapley values
-        """
-        )
-        
-        background = Image.open('./data/datadimscale.png')
-        col1, col2, col3 = st.columns([2, 5, 2])
-        col2.image(background, caption=' Dimensionality and scalability distribution across 100 regression datasets from the UCI ML repository.')
-        st.markdown(
-        """
-        To ease reproducibility, we share our results over an established benchmark. Download all the datasets [here](https://github.com/TheDatumOrg/ShapleyValuesEval/tree/main/data).
-
-        ## Models
-                    
-        We broadly classify the supervised machine learning models used to tackle regression-based problems into 5 categories - Linear models, Ensemble Learning, Gradient Boosting, Neural Networks, and Support Vector Machines. 
-        To conduct a thorough evaluation, we integrate models representing each category. Shapley values intend to explain a black box model by leveraging the model itself, thereby negating the significance of the model's fit quality. 
-        Consequently, this allows us to use vanilla versions of each model with default hyperparameters.
-        """
-        )
-
-with tab_framework:
-    # st.markdown('## Evaluation framework: ')
     # st.markdown(
     # """
-    # We break down the approximation of Shapley values into two principal dimensions. 
-    # These dimensions also serve as a guide for setting up the evaluation framework. 
-    # The first dimension involves properly treating missing values with the help of different replacement strategies. 
-    # We deploy each replacement strategy against an exhaustive estimation of Shapley values.
+    # ## Datasets
+
+    # For the scope of the study, we focus on regression-based tabular datasets. We utilize a total of 100 publicly available datasets from the UCI Machine Learning Repository.
+    # Within the datasets, there are as many as 60 input features, and the number of instances ranges from 100 to 1 million.
+    # The figure below illustrates the statistical characteristics of the 100 datasets, explicitly focusing on their dimensions and scale. 
+    # Since the Shapley values are a local feature attribution technique, the number of instances in the dataset has a very insignificant impact on generating explanations. 
+    # However, the data's dimensionality significantly influences the estimation of Shapley values
     # """
     # )
-    #     We bifurcate our analysis into two sub-analyses.
-    # The initial segment focuses on evaluating various replacement strategies alongside an exhaustive estimation of the Shapley values. 
-    # The subsequent segment is dedicated to evaluating different approximations of the Shapley values. 
-    # We thoroughly perform a quantitative and qualitative evaluation of the strategies.
+    
+    # background = Image.open('./data/datadimscale.png')
+    # col1, col2, col3 = st.columns([0.25, 5, 0.25])
+    # col2.image(background, caption=' Dimensionality and scalability distribution across 100 regression datasets from the UCI ML repository.')
+    # st.markdown(
+    # """
+    # To ease reproducibility, we share our results over an established benchmark. Download all the datasets [here](https://github.com/TheDatumOrg/ShapleyValuesEval/tree/main/data).
 
-    background = Image.open('./data/replacement.png')
-    col1, col2, col3 = st.columns([0.25, 5, 0.25])
-    with col2:
-        st.markdown('## Evaluation framework: ')
+    # ## Models
+                
+    # We broadly classify the supervised machine learning models used to tackle regression-based problems into 5 categories - Linear models, Ensemble Learning, Gradient Boosting, Neural Networks, and Support Vector Machines. 
+    # To conduct a thorough evaluation, we integrate models representing each category. Shapley values intend to explain a black box model by leveraging the model itself, thereby negating the significance of the model's fit quality. 
+    # Consequently, this allows us to use vanilla versions of each model with default hyperparameters.
+    # """
+    # )
+    
+    st.markdown(
+    """
+    ## Contributors
+
+    * [Suchit Gupte](https://github.com/SuchitGupte) (Ohio State University)
+    * [John Paparrizos](https://www.paparrizos.org/) (Ohio State University)
+    """
+    )
+
+with tab_framework:
+    st.markdown('## Benchmark details: ')
+
+    tab_1, tab_2, tab_3, tab_4 = st.tabs(["Overview", "Evaluation metrics", "Datasets", "Models"])  
+
+    with tab_1:
+        background = Image.open('./data/replacement.png')
+        st.markdown('### Overview: ')
         st.markdown(
         """
         We break down the approximation of Shapley values into two principal dimensions. 
@@ -570,8 +569,9 @@ with tab_framework:
         We deploy each replacement strategy against an exhaustive estimation of Shapley values.
         """
         )
-    col2.image(background, caption='Replacement strategies address the absence of features, eliminating the necessity to train an exponential number of models and mitigating computational complexity.')
-    with col2:
+        col1, col2, col3 = st.columns([0.25, 5, 0.25])
+        col2.image(background, caption='Replacement strategies address the absence of features, eliminating the necessity to train an exponential number of models and mitigating computational complexity.')
+        # with col2:
         st.markdown("""
         The second dimension focuses on tractable estimation strategies, which are crucial for efficiently computing Shapley values. 
         We analyze the performance of these tractable estimation strategies using established approximation algorithms. 
@@ -580,32 +580,56 @@ with tab_framework:
         Following are the Shapley value estimation approaches:
         """
         )
+        # st.markdown("""
+        #     | Approaches                                | Estimation Strategy                   | Replacement Strategy                                             | Language         |
+        #     |-------------------------------------------|---------------------------------------|------------------------------------------------------------------|------------------|
+        #     | Exhaustive Sampling                       | Exact (All potential feature subsets) | Conditional Distribution: Separate Models                        |Python            |   
+        #     | Interactions-based Method for Explanation | Random Order                          | Marginal Distribution: Empirical                                 |Python            |  
+        #     | Conditional Expectations Shapley          | Random Order                          | Conditional Distribution: Empirical                              |Python            | 
+        #     | Shapley Cohort refinement                 | Random Order                          | Conditional Distribution: Empirical                              |Python            |
+        #     | Multilinear Sampling                      | Multilinear Extension                 | Marginal Distribution: Empirical                                 |Python            |    
+        #     | KernelSHAP                                | Weighted Least Squares                | Marginal Distribution: Empirical                                 |Python            |    
+        #     | Parametric KernelSHAP                     | Weighted Least Squares                | Conditional Distribution: Parametric Assumption(Gaussian/Copula) |Python/R          |    
+        #     | Non-Parametric KernelSHAP                 | Weighted Least Squares                | Conditional Distribution: Empirical                              |Python/R          |    
+        #     | SGD-Shapley                               | Weighted Least Squares                | Predetermined Baseline: Mean                                     |Python            |    
+        #     | FastSHAP                                  | Weighted Least Squares                | Conditional Distribution: Surrogate model                        |Python            |    
+        #     | Independent LinearSHAP                    | Linear                                | Marginal Distribution: Empirical                                 |Python            |    
+        #     | Correlated LinearSHAP                     | Linear                                | Conditional Distribution: Parametric Assumption(Gaussian)        |Python            |    
+        #     | Tree Interventional                       | Tree                                  | Marginal Distribution: Empirical                                 |Python            |    
+        #     | Tree Path-dependent                       | Tree                                  | Conditional Distribution: Empirical                              |Python            |    
+        #     | DeepLIFT                                  | Deep                                  | Predetermined Baseline: All-zeros                                |Python/C++        |    
+        #     | DeepSHAP                                  | Deep                                  | Marginal Distribution: Empirical                                 |Python            |    
+        #     | DASP                                      | Deep                                  | Predetermined Baseline: Mean                                     |Python            |    
+        # """
+        # )
         st.markdown("""
-            | Approaches                                | Estimation Strategy                   | Replacement Strategy                                             | Language         |
-            |-------------------------------------------|---------------------------------------|------------------------------------------------------------------|------------------|
-            | Exhaustive Sampling                       | Exact (All potential feature subsets) | Conditional Distribution: Separate Models                        |Python            |   
-            | Interactions-based Method for Explanation | Random Order                          | Marginal Distribution: Empirical                                 |Python            |  
-            | Conditional Expectations Shapley          | Random Order                          | Conditional Distribution: Empirical                              |Python            | 
-            | Shapley Cohort refinement                 | Random Order                          | Conditional Distribution: Empirical                              |Python            |
-            | Multilinear Sampling                      | Multilinear Extension                 | Marginal Distribution: Empirical                                 |Python            |    
-            | KernelSHAP                                | Weighted Least Squares                | Marginal Distribution: Empirical                                 |Python            |    
-            | Parametric KernelSHAP                     | Weighted Least Squares                | Conditional Distribution: Parametric Assumption(Gaussian/Copula) |Python/R          |    
-            | Non-Parametric KernelSHAP                 | Weighted Least Squares                | Conditional Distribution: Empirical                              |Python/R          |    
-            | SGD-Shapley                               | Weighted Least Squares                | Predetermined Baseline: Mean                                     |Python            |    
-            | FastSHAP                                  | Weighted Least Squares                | Conditional Distribution: Surrogate model                        |Python            |    
-            | Independent LinearSHAP                    | Linear                                | Marginal Distribution: Empirical                                 |Python            |    
-            | Correlated LinearSHAP                     | Linear                                | Conditional Distribution: Parametric Assumption(Gaussian)        |Python            |    
-            | Tree Interventional                       | Tree                                  | Marginal Distribution: Empirical                                 |Python            |    
-            | Tree Path-dependent                       | Tree                                  | Conditional Distribution: Empirical                              |Python            |    
-            | DeepLIFT                                  | Deep                                  | Predetermined Baseline: All-zeros                                |Python/C++        |    
-            | DeepSHAP                                  | Deep                                  | Marginal Distribution: Empirical                                 |Python            |    
-            | DASP                                      | Deep                                  | Predetermined Baseline: Mean                                     |Python            |    
+            | Approaches                                | Estimation strategy                   | Replacement strategy                                         | 
+            |-------------------------------------------|---------------------------------------|-----------------------------------------------------|
+            | Exhaustive Sampling                       | Exact                                 | Conditional: Separate Models                        |   
+            | Interactions-based Method for Explanation | RO                                    | Marginal: Empirical                                 |  
+            | Conditional Expectations Shapley          | RO                                    | Conditional: Empirical                              | 
+            | Shapley Cohort refinement                 | RO                                    | Conditional: Empirical                              |
+            | Multilinear Sampling                      | MLE                                   | Marginal: Empirical                                 |    
+            | KernelSHAP                                | WLS                                   | Marginal: Empirical                                 |   
+            | Parametric KernelSHAP                     | WLS                                   | Conditional: Gaussian/Copula                        |  
+            | Non-Parametric KernelSHAP                 | WLS                                   | Conditional: Empirical                              |   
+            | SGD-Shapley                               | WLS                                   | Predetermined: Mean                                 |    
+            | FastSHAP                                  | WLS                                   | Conditional: Surrogate model                        |   
+            | Independent LinearSHAP                    | Linear                                | Marginal: Empirical                                 |    
+            | Correlated LinearSHAP                     | Linear                                | Conditional: Gaussian                               |   
+            | Tree Interventional                       | Tree                                  | Marginal: Empirical                                 |   
+            | Tree Path-dependent                       | Tree                                  | Conditional: Empirical                              | 
+            | DeepLIFT                                  | Deep                                  | Predetermined: All-zeros                            |   
+            | DeepSHAP                                  | Deep                                  | Marginal: Empirical                                 |    
+            | DASP                                      | Deep                                  | Predetermined: Mean                                 |   
         """
         )
-        st.markdown('## Evaluation metrics: ')
+
+    with tab_2:        
+        st.markdown('### Evaluation metrics: ')
         st.markdown(
         """
-        ### Explanation error:
+        #### 1. Explanation error:
 
         As we implement replacement strategies to address missing features in Shapley value estimation, the absence of ground truth Shapley values presents a clear obstacle in the evaluation. 
         Consequently, we must employ an alternative evaluation metric to assess the accuracy of the approaches, such as the explanation error. 
@@ -626,7 +650,7 @@ with tab_framework:
         We can determine the quality of any approximation by measuring the discrepancy between the actual model prediction and the sum of the average model prediction$(\Phi_0)$ and the Shapley value approximations$(\Phi_is)$. 
         A smaller disparity signifies a higher level of accuracy in the approximation.
 
-        ### Compute time:
+        #### 2. Compute time:
 
         Since Shapley values are a local feature attribution technique, we compare the instance-wise computational efficiency of different approaches. 
         The evaluation encompasses datasets that contain up to 45 features. Using the per-instance runtime comparison, we anticipate the trend of the runtime results as the dimensionality increases. 
@@ -634,417 +658,479 @@ with tab_framework:
 
         """
         )
-
-with tab_acc:
-    col1, col2, col3 = st.columns([0.25, 5, 0.25])
-    with col2:
+    
+    with tab_3:
         st.markdown(
         """
-        ## Accuracy Evaluation: 
-        
-        We use the $R^2$ test to analyze the explanation error. The $R^2$ test or the coefficient of determination, is a statistical test designed for regression analysis to assess the quality of fit. 
-        $R^2$  values, spanning from 0 to 1, are often converted into percentages to represent the accuracy of any regression model. 
-        For computing the $R^2$ value, we treat $f(x^e)$ as the ground truth and $\Phi_0 + \sum_{i=1}^{|D|} \Phi_i$ as the predicted value. 
-        A strategy with an $R^2$  value approaching 1 indicates that it can approximate the Shapley values accurately.
+
+        ### Datasets
+
+        For the scope of the study, we focus on regression-based tabular datasets. We utilize a total of 100 publicly available datasets from the UCI Machine Learning Repository.
+        Within the datasets, there are as many as 60 input features, and the number of instances ranges from 100 to 1 million.
+        The figure below illustrates the statistical characteristics of the 100 datasets, explicitly focusing on their dimensions and scale. 
+        Since the Shapley values are a local feature attribution technique, the number of instances in the dataset has a very insignificant impact on generating explanations. 
+        However, the data's dimensionality significantly influences the estimation of Shapley values
         """
         )
-        tab_repl, tab_app = st.tabs(["Replacement Strategy", "Approximations"])  
-        with tab_repl:
-            df = pd.read_csv('data/agnostic.csv')
-            statplot_df = pd.read_csv('data/statplot_df.csv')
-            model = st.selectbox('###### Pick a model type', ['Model agnostic', 'Linear models', 'Tree-based models', 'Neural networks'], key='model_repl')
+        
+        background = Image.open('./data/datadimscale.png')
+        col1, col2, col3 = st.columns([0.2, 5, 0.2])
+        col2.image(background, caption=' Dimensionality and scalability distribution across 100 regression datasets from the UCI ML repository.')
+
+        st.markdown("""
+        To ease reproducibility, we share our results over an established benchmark. 
             
-            repl_list = list(set(df['Replacement Strategy'].values))
+        * Download all the datasets [here](https://github.com/TheDatumOrg/ShapleyValuesEval/tree/main/data).
+        
+        """)
+
+    with tab_4:    
+        st.markdown(
+        """
+        ### Models
+                    
+        We broadly classify the supervised machine learning models used to tackle regression-based problems into 5 categories - Linear models, Ensemble Learning, Gradient Boosting, Neural Networks, and Support Vector Machines. 
+        To conduct a thorough evaluation, we integrate models representing each category. Shapley values intend to explain a black box model by leveraging the model itself, thereby negating the significance of the model's fit quality. 
+        Consequently, this allows us to use vanilla versions of each model with default hyperparameters.
+        """
+        )
+    
+with tab_acc:
+    # col1, col2, col3 = st.columns([0.25, 5, 0.25])
+    # with col2:
+    st.markdown(
+    """
+    ## Accuracy Evaluation: 
+    
+    We use the $R^2$ test to analyze the explanation error. The $R^2$ test or the coefficient of determination, is a statistical test designed for regression analysis to assess the quality of fit. 
+    $R^2$  values, spanning from 0 to 1, are often converted into percentages to represent the accuracy of any regression model. 
+    For computing the $R^2$ value, we treat $f(x^e)$ as the ground truth and $\Phi_0 + \sum_{i=1}^{|D|} \Phi_i$ as the predicted value. 
+    A strategy with an $R^2$  value approaching 1 indicates that it can approximate the Shapley values accurately.
+    """
+    )
+    tab_repl, tab_app = st.tabs(["Replacement Strategy", "Approximations"])  
+    with tab_repl:
+        df = pd.read_csv('data/agnostic.csv')
+        statplot_df = pd.read_csv('data/statplot_df.csv')
+        model = st.selectbox('###### Pick a model type', ['Model agnostic', 'Linear models', 'Tree-based models', 'Neural networks'], key='model_repl')
+        
+        repl_list = list(set(df['Replacement Strategy'].values))
+        container_method = st.container()
+        all_repl = st.checkbox("Select all", key='all_repl')
+
+        if all_repl: 
+            repl_list_family = container_method.multiselect('###### Pick a replacement strategy', sorted(repl_list), sorted(repl_list), key='all_repl_1')
+        else: 
+            repl_list_family = container_method.multiselect('###### Pick a replacement strategy', sorted(repl_list), key='all_repl_2', default=sorted(repl_list))
+
+        
+        if model == 'Model agnostic':
+            col1, col2, col3 = st.columns([0.05, 2, 0.05])
+            with col2:
+                statplot_df_mod = statplot_df[statplot_df['Replacement Strategy'].isin(repl_list_family)]
+                st.markdown('#### Statistical test rankings: ')
+                if len(repl_list_family) <= 2:
+                    st.markdown("###### Select atleast 3 replacement strategies for obtaining a statistical ranking")
+                else:
+                    draw_cd_diagram(strategy='Replacement Strategy', metric='accuracy', asc=False, df_perf=statplot_df_mod, labels=True)
+                
+                df_mod = df[df['Replacement Strategy'].isin(repl_list_family)]
+                st.markdown('#### Overall comparison: ')
+                plot_box_plot_repl(df_mod)
+
+            
+        elif model == 'Linear models':
+            lr = df[df['Model'] == 'Linear Regression']
+            col1, col2, col3 = st.columns([0.05, 2, 0.05])
+            with col2:
+                statplot_df = lr.copy()
+                # df_mod_stat = statplot_df.drop(['Model', 'Unnamed: 0'], axis=1).reset_index(drop=True)
+                statplot_df_mod = statplot_df[statplot_df['Replacement Strategy'].isin(repl_list_family)]
+                st.markdown('#### Statistical test rankings: ')
+                if len(repl_list_family) <= 2:
+                    st.markdown("###### Select atleast 3 replacement strategies for obtaining a statistical ranking")
+                else:
+                    draw_cd_diagram(strategy='Replacement Strategy', metric='accuracy', asc=False, df_perf=statplot_df_mod, labels=True)
+            
+                df_mod = lr[lr['Replacement Strategy'].isin(repl_list_family)]
+                st.markdown('#### Overall comparison: ')
+                plot_box_plot_repl(df_mod)
+        
+        
+        elif model == 'Tree-based models':
+            model_list = ['XGBoost', 'Decision Trees', 'Random Forest']
+            tree = df[df['Model'] == 'XGBoost']
+        
+            col1, col2, col3 = st.columns([0.05, 2, 0.05])
+            with col2:
+                statplot_df = tree.copy()
+                statplot_df_mod = statplot_df[statplot_df['Replacement Strategy'].isin(repl_list_family)]
+                st.markdown('#### Statistical test rankings: ')
+                if len(repl_list_family) <= 2:
+                    st.markdown("###### Select atleast 3 replacement strategies for obtaining a statistical ranking")
+                else:
+                    draw_cd_diagram(strategy='Replacement Strategy', metric='accuracy', asc=False, df_perf=statplot_df_mod, labels=True)
+
+
+                df_mod = tree[tree['Replacement Strategy'].isin(repl_list_family)]
+                st.markdown('#### Overall comparison: ')
+                plot_box_plot_repl(df_mod)
+        
+        elif model == 'Neural networks':
+            model_list = ['Neural network']
+            nn = df[df['Model'] == 'Neural network']
+
+            col1, col2, col3 = st.columns([0.05, 2, 0.05])
+            with col2:
+                statplot_df = nn.copy()
+                statplot_df_mod = statplot_df[statplot_df['Replacement Strategy'].isin(repl_list_family)]
+                st.markdown('#### Statistical test rankings: ')
+                if len(repl_list_family) <= 2:
+                    st.markdown("###### Select atleast 3 replacement strategies for obtaining a statistical ranking")
+                else:
+                    draw_cd_diagram(strategy='Replacement Strategy', metric='accuracy', asc=False, df_perf=statplot_df_mod, labels=True)
+
+                df_mod = nn[nn['Replacement Strategy'].isin(repl_list_family)]
+                st.markdown('#### Overall comparison: ')
+                plot_box_plot_repl(df_mod)
+
+        else:
+            print("Not yet implemented")
+
+    with tab_app:
+        model = st.selectbox('###### Pick a model type', ['Model agnostic', 'Linear models', 'Tree-based models', 'Neural networks'], key='model_app')
+        
+        if model == 'Model agnostic':
+            app_df = pd.read_csv("data/tables/agnostic.csv")
+            app_list = list(set(app_df['Approximation'].values))
             container_method = st.container()
-            all_repl = st.checkbox("Select all", key='all_repl')
+            all_app = st.checkbox("Select all", key='all_app')
 
-            if all_repl: 
-                repl_list_family = container_method.multiselect('###### Pick a replacement strategy', sorted(repl_list), sorted(repl_list), key='all_repl_1')
+            if all_app: 
+                app_list_family = container_method.multiselect('###### Pick an estimation strategy', sorted(app_list), sorted(app_list), key='all_app_1')
             else: 
-                repl_list_family = container_method.multiselect('###### Pick a replacement strategy', sorted(repl_list), key='all_repl_2', default=sorted(repl_list))
-
+                app_list_family = container_method.multiselect('###### Pick an estimation strategy', sorted(app_list), key='all_app_2', default=sorted(app_list))
             
-            if model == 'Model agnostic':
-                col1, col2, col3 = st.columns([0.5, 2, 0.5])
-                with col2:
-                    statplot_df_mod = statplot_df[statplot_df['Replacement Strategy'].isin(repl_list_family)]
-                    st.markdown('#### Statistical test rankings: ')
-                    if len(repl_list_family) <= 2:
-                        st.markdown("###### Select atleast 3 replacement strategies for obtaining a statistical ranking")
-                    else:
-                        draw_cd_diagram(strategy='Replacement Strategy', metric='accuracy', asc=False, df_perf=statplot_df_mod, labels=True)
-                    
-                    df_mod = df[df['Replacement Strategy'].isin(repl_list_family)]
+            col1, col2, col3 = st.columns([0.05, 2, 0.05])
+            with col2:
+                st.markdown('#### Statistical test rankings: ')
+                if len(app_list_family) <= 2:
+                    st.markdown("###### Select atleast 3 estimation strategies for obtaining a statistical ranking")
+                else:
+                    statplot_df_mod = app_df[app_df['Approximation'].isin(app_list_family)]
+                    draw_cd_diagram(strategy='Approximation', metric='Accuracy', asc=False, df_perf=statplot_df_mod, labels=True)
                     st.markdown('#### Overall comparison: ')
-                    plot_box_plot_repl(df_mod)
+                    plot_box_plot_app(statplot_df_mod)
+                
 
-                
-            elif model == 'Linear models':
-                lr = df[df['Model'] == 'Linear Regression']
-                col1, col2, col3 = st.columns([0.5, 2, 0.5])
-                with col2:
-                    statplot_df = lr.copy()
-                    # df_mod_stat = statplot_df.drop(['Model', 'Unnamed: 0'], axis=1).reset_index(drop=True)
-                    statplot_df_mod = statplot_df[statplot_df['Replacement Strategy'].isin(repl_list_family)]
-                    st.markdown('#### Statistical test rankings: ')
-                    if len(repl_list_family) <= 2:
-                        st.markdown("###### Select atleast 3 replacement strategies for obtaining a statistical ranking")
-                    else:
-                        draw_cd_diagram(strategy='Replacement Strategy', metric='accuracy', asc=False, df_perf=statplot_df_mod, labels=True)
-                
-                    df_mod = lr[lr['Replacement Strategy'].isin(repl_list_family)]
+        elif model == 'Linear models':
+            app_df = pd.read_csv("data/tables/linear.csv")
+            app_list = list(set(app_df['Approximation'].values))
+            container_method = st.container()
+            all_app = st.checkbox("Select all", key='all_app')
+
+            if all_app: 
+                app_list_family = container_method.multiselect('###### Pick an estimation strategy', sorted(app_list), sorted(app_list), key='all_app_1')
+            else: 
+                app_list_family = container_method.multiselect('###### Pick an estimation strategy', sorted(app_list), key='all_app_2', default=sorted(app_list))
+
+            col1, col2, col3 = st.columns([0.05, 2, 0.05])
+            with col2:
+                st.markdown('#### Statistical test rankings: ')
+                if len(app_list_family) <= 2:
+                    st.markdown("###### Select atleast 3 estimation strategies for obtaining a statistical ranking")
+                else:
+                    statplot_df_mod = app_df[app_df['Approximation'].isin(app_list_family)]
+                    draw_cd_diagram(strategy='Approximation', metric='Accuracy', asc=False, df_perf=statplot_df_mod, labels=True)
                     st.markdown('#### Overall comparison: ')
-                    plot_box_plot_repl(df_mod)
-            
-            
-            elif model == 'Tree-based models':
-                model_list = ['XGBoost', 'Decision Trees', 'Random Forest']
-                tree = df[df['Model'] == 'XGBoost']
-          
-                col1, col2, col3 = st.columns([0.5, 2, 0.5])
-                with col2:
-                    statplot_df = tree.copy()
-                    statplot_df_mod = statplot_df[statplot_df['Replacement Strategy'].isin(repl_list_family)]
-                    st.markdown('#### Statistical test rankings: ')
-                    if len(repl_list_family) <= 2:
-                        st.markdown("###### Select atleast 3 replacement strategies for obtaining a statistical ranking")
-                    else:
-                        draw_cd_diagram(strategy='Replacement Strategy', metric='accuracy', asc=False, df_perf=statplot_df_mod, labels=True)
+                    plot_box_plot_app(statplot_df_mod)
 
 
-                    df_mod = tree[tree['Replacement Strategy'].isin(repl_list_family)]
+        elif model == 'Tree-based models':
+            app_df = pd.read_csv("data/tables/tree.csv")
+            app_list = list(set(app_df['Approximation'].values))
+            container_method = st.container()
+            all_app = st.checkbox("Select all", key='all_app')
+
+            if all_app: 
+                app_list_family = container_method.multiselect('###### Pick an estimation strategy', sorted(app_list), sorted(app_list), key='all_app_1')
+            else: 
+                app_list_family = container_method.multiselect('###### Pick an estimation strategy', sorted(app_list), key='all_app_2', default=sorted(app_list))
+            
+            col1, col2, col3 = st.columns([0.05, 2, 0.05])
+            with col2:
+                st.markdown('#### Statistical test rankings: ')
+                if len(app_list_family) <= 2:
+                    st.markdown("###### Select atleast 3 estimation strategies for obtaining a statistical ranking")
+                else:
+                    statplot_df_mod = app_df[app_df['Approximation'].isin(app_list_family)]
+                    draw_cd_diagram(strategy='Approximation', metric='Accuracy', asc=False, df_perf=statplot_df_mod, labels=True)
                     st.markdown('#### Overall comparison: ')
-                    plot_box_plot_repl(df_mod)
-            
-            elif model == 'Neural networks':
-                model_list = ['Neural network']
-                nn = df[df['Model'] == 'Neural network']
+                    plot_box_plot_app(statplot_df_mod)
 
-                col1, col2, col3 = st.columns([0.5, 2, 0.5])
-                with col2:
-                    statplot_df = nn.copy()
-                    statplot_df_mod = statplot_df[statplot_df['Replacement Strategy'].isin(repl_list_family)]
-                    st.markdown('#### Statistical test rankings: ')
-                    if len(repl_list_family) <= 2:
-                        st.markdown("###### Select atleast 3 replacement strategies for obtaining a statistical ranking")
-                    else:
-                        draw_cd_diagram(strategy='Replacement Strategy', metric='accuracy', asc=False, df_perf=statplot_df_mod, labels=True)
 
-                    df_mod = nn[nn['Replacement Strategy'].isin(repl_list_family)]
+        elif model == 'Neural networks':
+            app_df = pd.read_csv("data/tables/nn.csv")
+            app_list = list(set(app_df['Approximation'].values))
+            container_method = st.container()
+            all_app = st.checkbox("Select all", key='all_app')
+
+            if all_app: 
+                app_list_family = container_method.multiselect('###### Pick an estimation strategy', sorted(app_list), sorted(app_list), key='all_app_1')
+            else: 
+                app_list_family = container_method.multiselect('###### Pick an estimation strategy', sorted(app_list), key='all_app_2', default=sorted(app_list))
+            col1, col2, col3 = st.columns([0.05, 2, 0.05])
+            with col2:
+                st.markdown('#### Statistical test rankings: ')
+                if len(app_list_family) <= 2:
+                    st.markdown("###### Select atleast 3 estimation strategies for obtaining a statistical ranking")
+                else:
+                    statplot_df_mod = app_df[app_df['Approximation'].isin(app_list_family)]
+                    draw_cd_diagram(strategy='Approximation', metric='Accuracy', asc=False, df_perf=statplot_df_mod, labels=True)
                     st.markdown('#### Overall comparison: ')
-                    plot_box_plot_repl(df_mod)
+                    plot_box_plot_app(statplot_df_mod)
 
-            else:
-                print("Not yet implemented")
-
-        with tab_app:
-            model = st.selectbox('###### Pick a model type', ['Model agnostic', 'Linear models', 'Tree-based models', 'Neural networks'], key='model_app')
-            
-            if model == 'Model agnostic':
-                app_df = pd.read_csv("data/tables/agnostic.csv")
-                app_list = list(set(app_df['Approximation'].values))
-                container_method = st.container()
-                all_app = st.checkbox("Select all", key='all_app')
-
-                if all_app: 
-                    app_list_family = container_method.multiselect('###### Pick an estimation strategy', sorted(app_list), sorted(app_list), key='all_app_1')
-                else: 
-                    app_list_family = container_method.multiselect('###### Pick an estimation strategy', sorted(app_list), key='all_app_2', default=sorted(app_list))
-                
-                col1, col2, col3 = st.columns([0.5, 2, 0.5])
-                with col2:
-                    st.markdown('#### Statistical test rankings: ')
-                    if len(app_list_family) <= 2:
-                        st.markdown("###### Select atleast 3 estimation strategies for obtaining a statistical ranking")
-                    else:
-                        statplot_df_mod = app_df[app_df['Approximation'].isin(app_list_family)]
-                        draw_cd_diagram(strategy='Approximation', metric='Accuracy', asc=False, df_perf=statplot_df_mod, labels=True)
-                        st.markdown('#### Overall comparison: ')
-                        plot_box_plot_app(app_df)
-                    
-
-            elif model == 'Linear models':
-                app_df = pd.read_csv("data/tables/linear.csv")
-                app_list = list(set(app_df['Approximation'].values))
-                container_method = st.container()
-                all_app = st.checkbox("Select all", key='all_app')
-
-                if all_app: 
-                    app_list_family = container_method.multiselect('###### Pick an estimation strategy', sorted(app_list), sorted(app_list), key='all_app_1')
-                else: 
-                    app_list_family = container_method.multiselect('###### Pick an estimation strategy', sorted(app_list), key='all_app_2', default=sorted(app_list))
-
-                col1, col2, col3 = st.columns([0.5, 2, 0.5])
-                with col2:
-                    st.markdown('#### Statistical test rankings: ')
-                    if len(app_list_family) <= 2:
-                        st.markdown("###### Select atleast 3 estimation strategies for obtaining a statistical ranking")
-                    else:
-                        statplot_df_mod = app_df[app_df['Approximation'].isin(app_list_family)]
-                        draw_cd_diagram(strategy='Approximation', metric='Accuracy', asc=False, df_perf=statplot_df_mod, labels=True)
-                        st.markdown('#### Overall comparison: ')
-                        plot_box_plot_app(app_df)
-
-
-            elif model == 'Tree-based models':
-                app_df = pd.read_csv("data/tables/tree.csv")
-                app_list = list(set(app_df['Approximation'].values))
-                container_method = st.container()
-                all_app = st.checkbox("Select all", key='all_app')
-
-                if all_app: 
-                    app_list_family = container_method.multiselect('###### Pick an estimation strategy', sorted(app_list), sorted(app_list), key='all_app_1')
-                else: 
-                    app_list_family = container_method.multiselect('###### Pick an estimation strategy', sorted(app_list), key='all_app_2', default=sorted(app_list))
-                
-                col1, col2, col3 = st.columns([0.5, 2, 0.5])
-                with col2:
-                    st.markdown('#### Statistical test rankings: ')
-                    if len(app_list_family) <= 2:
-                        st.markdown("###### Select atleast 3 estimation strategies for obtaining a statistical ranking")
-                    else:
-                        statplot_df_mod = app_df[app_df['Approximation'].isin(app_list_family)]
-                        draw_cd_diagram(strategy='Approximation', metric='Accuracy', asc=False, df_perf=statplot_df_mod, labels=True)
-                        st.markdown('#### Overall comparison: ')
-                        plot_box_plot_app(app_df)
-
-
-            elif model == 'Neural networks':
-                app_df = pd.read_csv("data/tables/nn.csv")
-                app_list = list(set(app_df['Approximation'].values))
-                container_method = st.container()
-                all_app = st.checkbox("Select all", key='all_app')
-
-                if all_app: 
-                    app_list_family = container_method.multiselect('###### Pick an estimation strategy', sorted(app_list), sorted(app_list), key='all_app_1')
-                else: 
-                    app_list_family = container_method.multiselect('###### Pick an estimation strategy', sorted(app_list), key='all_app_2', default=sorted(app_list))
-                col1, col2, col3 = st.columns([0.5, 2, 0.5])
-                with col2:
-                    st.markdown('#### Statistical test rankings: ')
-                    if len(app_list_family) <= 2:
-                        st.markdown("###### Select atleast 3 estimation strategies for obtaining a statistical ranking")
-                    else:
-                        statplot_df_mod = app_df[app_df['Approximation'].isin(app_list_family)]
-                        draw_cd_diagram(strategy='Approximation', metric='Accuracy', asc=False, df_perf=statplot_df_mod, labels=True)
-                        st.markdown('#### Overall comparison: ')
-                        plot_box_plot_app(app_df)
-
-            else:
-                st.markdown("Not implemented!")
+        else:
+            st.markdown("Not implemented!")
 
 with tab_time:
-    col1, col2, col3 = st.columns([0.25, 5, 0.25])
-    with col2:
-        st.markdown("## Instance-wise compute time comparison: ")
-        tab_repl, tab_app = st.tabs(["Replacement Strategy", "Approximations"])
+    # col1, col2, col3 = st.columns([0.25, 5, 0.25])
+    # with col2:
+    st.markdown("## Instance-wise compute time comparison: ")
+    tab_repl, tab_app = st.tabs(["Replacement Strategy", "Approximations"])
 
-        with tab_repl:
-            df = pd.read_csv('data/agnostic.csv')
-            model = st.selectbox('###### Pick a model type', ['Model agnostic', 'Linear models', 'Tree-based models', 'Neural networks'], key='model_repl_time')
-            
-            repl_list_time = list(set(df['Replacement Strategy'].values))
-            container_method = st.container()
-            all_repl_time = st.checkbox("Select all", key='all_repl_time')
+    with tab_repl:
+        df = pd.read_csv('data/agnostic.csv')
+        df2 = pd.read_csv('data/time_df.csv')
 
-            if all_repl_time: 
-                repl_list_family_time = container_method.multiselect('###### Pick a replacement strategy', sorted(repl_list_time), sorted(repl_list_time), key='all_repl_time_1')
-            else: 
-                repl_list_family_time = container_method.multiselect('###### Pick a replacement strategy', sorted(repl_list_time), key='all_repl_time_2', default=sorted(repl_list_time))
+        model = st.selectbox('###### Pick a model type', ['Model agnostic', 'Linear models', 'Tree-based models', 'Neural networks'], key='model_repl_time')
+        
+        repl_list_time = list(set(df['Replacement Strategy'].values))
+        container_method = st.container()
+        all_repl_time = st.checkbox("Select all", key='all_repl_time')
 
-            
-            col1, col2, col3 = st.columns([0.5, 2, 0.5])
-            with col2:
-                st.markdown('#### Overall comparison: ')
+        if all_repl_time: 
+            repl_list_family_time = container_method.multiselect('###### Pick a replacement strategy', sorted(repl_list_time), sorted(repl_list_time), key='all_repl_time_1')
+        else: 
+            repl_list_family_time = container_method.multiselect('###### Pick a replacement strategy', sorted(repl_list_time), key='all_repl_time_2', default=sorted(repl_list_time))
 
-                if model == 'Model agnostic':
-                    time_df = df
-                elif model == 'Linear models':
-                    time_df = df[df['Model'] == 'Linear Regression']
-                elif model == 'Tree-based models':
-                    time_df = df[df['Model'] == 'XGBoost']
-
-                elif model == 'Neural networks':
-                    time_df = df[df['Model'] == 'Neural network']
-                else:
-                    print("Not implemented")
-
-                bar_chart = alt.Chart(time_df[time_df['Replacement Strategy'].isin(repl_list_family_time)]).mark_bar().encode(
-                    x=alt.X("Time:Q", scale=alt.Scale(type='log')),
-                    y=alt.Y("Replacement Strategy:N", sort="y",  axis=alt.Axis(labelAngle=0, labelLimit=200)),
-                    color=alt.Color("Replacement Strategy:N", scale=alt.Scale(scheme='magma'))
-                ).properties(
-                    width=600,
-                    height=400
-                ).configure_axis(
-                    labelFontSize=14,  # Adjust label font size
-                    titleFontSize=18,  # Adjust title font size
-                    tickSize=14  # Adjust tick size
-                )
-            
-                st.altair_chart(bar_chart, use_container_width=True)
-
-
-
-        with tab_app:
-            model = st.selectbox('###### Pick a model type', ['Model agnostic', 'Linear models', 'Tree-based models', 'Neural networks'], key='model_app_time')
+        
+        col1, col2, col3 = st.columns([0.05, 2, 0.05])
+        with col2:
+            st.markdown('#### Overall comparison: ')
 
             if model == 'Model agnostic':
-                time_df = pd.read_csv("data/tables/agnostic.csv")
-                app_list = list(set(time_df['Approximation'].values))
-                container_method = st.container()
-                all_app = st.checkbox("Select all", key='all_app_time')
-
-                if all_app: 
-                    app_list_family_time = container_method.multiselect('###### Pick an estimation strategy', sorted(app_list), sorted(app_list), key='all_app_time_1')
-                else: 
-                    app_list_family_time = container_method.multiselect('###### Pick an estimation strategy', sorted(app_list), key='all_app_time_2', default=sorted(app_list))
-            
-                    
+                time_df = df
+                time_df2 = pd.read_csv("data/time_agn.csv")
 
             elif model == 'Linear models':
-                time_df = pd.read_csv("data/tables/linear.csv")
-                app_list = list(set(time_df['Approximation'].values))
-                container_method = st.container()
-                all_app = st.checkbox("Select all", key='all_app_time')
-
-                if all_app: 
-                    app_list_family_time = container_method.multiselect('###### Pick an estimation strategy', sorted(app_list), sorted(app_list), key='all_app_time_1')
-                else: 
-                    app_list_family_time = container_method.multiselect('###### Pick an estimation strategy', sorted(app_list), key='all_app_time_2', default=sorted(app_list))
-
-
+                time_df = df[df['Model'] == 'Linear Regression']
+                time_df2 = df2[df2['Model'] == 'linear']
 
             elif model == 'Tree-based models':
-                time_df = pd.read_csv("data/tables/tree.csv")
-                app_list = list(set(time_df['Approximation'].values))
-                container_method = st.container()
-                all_app = st.checkbox("Select all", key='all_app_time')
-
-                if all_app: 
-                    app_list_family_time = container_method.multiselect('###### Pick an estimation strategy', sorted(app_list), sorted(app_list), key='all_app_time_1')
-                else: 
-                    app_list_family_time = container_method.multiselect('###### Pick an estimation strategy', sorted(app_list), key='all_app_time_2', default=sorted(app_list))
-
+                time_df = df[df['Model'] == 'XGBoost']
+                time_df2 = df2[df2['Model'] == 'tree']
 
 
             elif model == 'Neural networks':
-                time_df = pd.read_csv("data/tables/nn.csv")
-                app_list = list(set(time_df['Approximation'].values))
-                container_method = st.container()
-                all_app = st.checkbox("Select all", key='all_app_time')
+                time_df = df[df['Model'] == 'Neural network']
+                time_df2 = df2[df2['Model'] == 'nn']
 
-                if all_app: 
-                    app_list_family_time = container_method.multiselect('###### Pick an estimation strategy', sorted(app_list), sorted(app_list), key='all_app_time_1')
-                else: 
-                    app_list_family_time = container_method.multiselect('###### Pick an estimation strategy', sorted(app_list), key='all_app_time_2', default=sorted(app_list))
-    
             else:
-                print("Not implemented!")
+                print("Not implemented")
+
+            bar_chart = alt.Chart(time_df[time_df['Replacement Strategy'].isin(repl_list_family_time)]).mark_bar().encode(
+                x=alt.X("Time:Q", scale=alt.Scale(type='log')),
+                y=alt.Y("Replacement Strategy:N", sort="y",  axis=alt.Axis(labelAngle=0, labelLimit=200)),
+                color=alt.Color("Replacement Strategy:N", scale=alt.Scale(scheme='magma'))
+            ).properties(
+                width=600,
+                height=400
+            ).configure_axis(
+                labelFontSize=14,  # Adjust label font size
+                titleFontSize=18,  # Adjust title font size
+                tickSize=14  # Adjust tick size
+            )
+        
+            st.altair_chart(bar_chart, use_container_width=True)
 
             
-            col1, col2, col3 = st.columns([0.5, 2, 0.5])
-            with col2:
-                st.markdown('#### Overall comparison: ')
-                bar_chart = alt.Chart(time_df[time_df['Approximation'].isin(app_list_family_time)]).mark_bar().encode(
-                    x=alt.X("Time:Q", scale=alt.Scale(type='log')),
-                    y=alt.Y("Approximation:N", sort="y",  axis=alt.Axis(labelAngle=0, labelLimit=200)),
-                    color=alt.Color("Approximation:N", scale=alt.Scale(scheme='magma'))
-                ).properties(
-                    width=600,
-                    height=400
-                ).configure_axis(
-                    labelFontSize=14,  # Adjust label font size
-                    titleFontSize=18,  # Adjust title font size
-                    tickSize=14  # Adjust tick size
-                )
-            
-                st.altair_chart(bar_chart, use_container_width=True)
+            line_chart = alt.Chart(time_df2[time_df2['Replacement Strategy'].isin(repl_list_family_time)]).mark_line().encode(
+                x=alt.X("Features:N"),
+                y=alt.Y("Time:Q",  scale=alt.Scale(type='log')),
+                color=alt.Color("Replacement Strategy:N", scale=alt.Scale(scheme='magma'))
+            ).properties(
+                width=600,
+                height=400
+            ).configure_axis(
+                labelFontSize=14,  # Adjust label font size
+                titleFontSize=18,  # Adjust title font size
+                tickSize=14  # Adjust tick size
+            ).interactive()
 
-                dim_df = pd.read_csv("data/tables/time_approaches.csv")
 
-                line_chart = alt.Chart(dim_df[dim_df['Approximation'].isin(app_list_family_time)]).mark_line().encode(
-                    x=alt.X("Features:N"),
-                    y=alt.Y("Time:Q",  scale=alt.Scale(type='log')),
-                    color=alt.Color("Approximation:N", scale=alt.Scale(scheme='magma'))
-                ).properties(
-                    width=600,
-                    height=400
-                ).configure_axis(
-                    labelFontSize=14,  # Adjust label font size
-                    titleFontSize=18,  # Adjust title font size
-                    tickSize=14  # Adjust tick size
-                ).interactive()
+            st.markdown('####  Impact of increasing dimensionality on compute time : ')
+            st.altair_chart(line_chart, use_container_width=True)
 
-                st.markdown('####  Impact of increasing dimensionality on the per instance computation time : ')
-                st.altair_chart(line_chart, use_container_width=True)
+    with tab_app:
+        model = st.selectbox('###### Pick a model type', ['Model agnostic', 'Linear models', 'Tree-based models', 'Neural networks'], key='model_app_time')
+
+        if model == 'Model agnostic':
+            time_df = pd.read_csv("data/tables/agnostic.csv")
+            app_list = list(set(time_df['Approximation'].values))
+            container_method = st.container()
+            all_app = st.checkbox("Select all", key='all_app_time')
+
+            if all_app: 
+                app_list_family_time = container_method.multiselect('###### Pick an estimation strategy', sorted(app_list), sorted(app_list), key='all_app_time_1')
+            else: 
+                app_list_family_time = container_method.multiselect('###### Pick an estimation strategy', sorted(app_list), key='all_app_time_2', default=sorted(app_list))
+        
+                
+
+        elif model == 'Linear models':
+            time_df = pd.read_csv("data/tables/linear.csv")
+            app_list = list(set(time_df['Approximation'].values))
+            container_method = st.container()
+            all_app = st.checkbox("Select all", key='all_app_time')
+
+            if all_app: 
+                app_list_family_time = container_method.multiselect('###### Pick an estimation strategy', sorted(app_list), sorted(app_list), key='all_app_time_1')
+            else: 
+                app_list_family_time = container_method.multiselect('###### Pick an estimation strategy', sorted(app_list), key='all_app_time_2', default=sorted(app_list))
+
+
+
+        elif model == 'Tree-based models':
+            time_df = pd.read_csv("data/tables/tree.csv")
+            app_list = list(set(time_df['Approximation'].values))
+            container_method = st.container()
+            all_app = st.checkbox("Select all", key='all_app_time')
+
+            if all_app: 
+                app_list_family_time = container_method.multiselect('###### Pick an estimation strategy', sorted(app_list), sorted(app_list), key='all_app_time_1')
+            else: 
+                app_list_family_time = container_method.multiselect('###### Pick an estimation strategy', sorted(app_list), key='all_app_time_2', default=sorted(app_list))
+
+
+
+        elif model == 'Neural networks':
+            time_df = pd.read_csv("data/tables/nn.csv")
+            app_list = list(set(time_df['Approximation'].values))
+            container_method = st.container()
+            all_app = st.checkbox("Select all", key='all_app_time')
+
+            if all_app: 
+                app_list_family_time = container_method.multiselect('###### Pick an estimation strategy', sorted(app_list), sorted(app_list), key='all_app_time_1')
+            else: 
+                app_list_family_time = container_method.multiselect('###### Pick an estimation strategy', sorted(app_list), key='all_app_time_2', default=sorted(app_list))
+
+        else:
+            print("Not implemented!")
+
+        
+        col1, col2, col3 = st.columns([0.05, 2, 0.05])
+        with col2:
+            st.markdown('#### Overall comparison: ')
+            bar_chart = alt.Chart(time_df[time_df['Approximation'].isin(app_list_family_time)]).mark_bar().encode(
+                x=alt.X("Time:Q", scale=alt.Scale(type='log')),
+                y=alt.Y("Approximation:N", sort="y",  axis=alt.Axis(labelAngle=0, labelLimit=200)),
+                color=alt.Color("Approximation:N", scale=alt.Scale(scheme='magma'))
+            ).properties(
+                width=600,
+                height=400
+            ).configure_axis(
+                labelFontSize=14,  # Adjust label font size
+                titleFontSize=18,  # Adjust title font size
+                tickSize=14  # Adjust tick size
+            )
+        
+            st.altair_chart(bar_chart, use_container_width=True)
+
+            dim_df = pd.read_csv("data/tables/time_approaches.csv")
+
+            line_chart = alt.Chart(dim_df[dim_df['Approximation'].isin(app_list_family_time)]).mark_line().encode(
+                x=alt.X("Features:N"),
+                y=alt.Y("Time:Q",  scale=alt.Scale(type='log')),
+                color=alt.Color("Approximation:N", scale=alt.Scale(scheme='magma'))
+            ).properties(
+                width=600,
+                height=400
+            ).configure_axis(
+                labelFontSize=14,  # Adjust label font size
+                titleFontSize=18,  # Adjust title font size
+                tickSize=14  # Adjust tick size
+            ).interactive()
+
+            st.markdown('####  Impact of increasing dimensionality on compute time : ')
+            st.altair_chart(line_chart, use_container_width=True)
     
 with tab_diy:
-    col1, col2, col3 = st.columns([0.25, 5, 0.25])
-    with col2:
-        data = None
-        col11, col12 = st.columns([1, 1])
-        with col11:
-            data_file = st.file_uploader("Upload a Data File (Must be a CSV file): ", type="csv")
-            if data_file is not None:
-                data = pd.read_csv(data_file).iloc[:, 1:]
-                X = data.iloc[:, :-1]
-                y = data.iloc[:, -1]
-                X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=0)
+    # col1, col2, col3 = st.columns([0.25, 5, 0.25])
+    # with col2:
+    data = None
+    col11, col12 = st.columns([1, 1])
+    with col11:
+        data_file = st.file_uploader("Upload a Data File (Must be a CSV file): ", type="csv")
+        if data_file is not None:
+            data = pd.read_csv(data_file).iloc[:, 1:]
+            X = data.iloc[:, :-1]
+            y = data.iloc[:, -1]
+            X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=0)
 
+        else:
+            st.warning("Please upload a .csv data file.")
+
+    
+    with col12:
+        model_file = st.file_uploader('Upload Model File (Must be a Pickle file):', type=['pkl'])
+        model_load = None
+        if model_file is not None:
+            model_load = joblib.load(model_file)
+        else:
+            st.warning("Please upload a .pkl model file.")
+
+
+
+    if data is not None:
+        # st.dataframe(data, height=300)
+        selection = dataframe_with_selections(data)
+
+        if len(selection) != 1:
+            st.error('Shapley values is a local feature attribution technique. Hence, select a single instance to explain!', icon="🚨")
+        else:
+            st.write("Your selection:")
+            st.dataframe(selection, width=2000)
+            shap_vals = None
+            if model_load is not None:
+                exp = shap.explainers.Exact(model_load.predict, X_train)
+                shap_vals = exp(selection.iloc[:, :-1])
             else:
-                st.warning("Please upload a .csv data file.")
+                st.error('Please upload a model file to generate explanations!', icon="🚨")
 
-        
-        with col12:
-            model_file = st.file_uploader('Upload Model File (Must be a Pickle file):', type=['pkl'])
-            model_load = None
-            if model_file is not None:
-                model_load = joblib.load(model_file)
-            else:
-                st.warning("Please upload a .pkl model file.")
+            col1, col2, col3 = st.columns([0.05, 2, 0.05])
+            with col2:
+                if shap_vals is not None:
+                    with st.container(border=True):
+                        plot_shap_fig(shap_vals)
+    
+    
+    # with col13:
+    #     shap_vals = None
+    #     instance_file = st.file_uploader("Upload an Instance File (Must be a CSV file): ", type="csv")
+    #     if model_load is not None:
+    #         exp = shap.explainers.Exact(model_load.predict, X_train)
+    #     if instance_file is not None:
+    #         instance = pd.read_csv(instance_file)
+    #         # shap_vals = exp.shap_values(instance)
+    #         shap_vals = exp(instance)
+    #     else:
+    #         st.warning("Please upload a .csv instance file.")
 
-
-
-        if data is not None:
-            # st.dataframe(data, height=300)
-            selection = dataframe_with_selections(data)
-
-            if len(selection) != 1:
-                st.error('Shapley values is a local feature attribution technique. Hence, select a single instance to explain!', icon="🚨")
-            else:
-                st.write("Your selection:")
-                st.dataframe(selection, width=2000)
-                shap_vals = None
-                if model_load is not None:
-                    exp = shap.explainers.Exact(model_load.predict, X_train)
-                    shap_vals = exp(selection.iloc[:, :-1])
-                else:
-                    st.error('Please upload a model file to generate explanations!', icon="🚨")
-
-                col1, col2, col3 = st.columns([0.4, 2, 0.4])
-                with col2:
-                    if shap_vals is not None:
-                        with st.container(border=True):
-                            plot_shap_fig(shap_vals)
-        
-        
-        # with col13:
-        #     shap_vals = None
-        #     instance_file = st.file_uploader("Upload an Instance File (Must be a CSV file): ", type="csv")
-        #     if model_load is not None:
-        #         exp = shap.explainers.Exact(model_load.predict, X_train)
-        #     if instance_file is not None:
-        #         instance = pd.read_csv(instance_file)
-        #         # shap_vals = exp.shap_values(instance)
-        #         shap_vals = exp(instance)
-        #     else:
-        #         st.warning("Please upload a .csv instance file.")
-
-        # col1, col2, col3 = st.columns([0.4, 2, 0.4])
-        # with col2:
-        #     if shap_vals is not None:
-        #         plot_shap_fig(shap_vals)
+    # col1, col2, col3 = st.columns([0.4, 2, 0.4])
+    # with col2:
+    #     if shap_vals is not None:
+    #         plot_shap_fig(shap_vals)
 
 
 
@@ -1058,8 +1144,7 @@ with tab_diy:
 
 
 
+    
+
         
 
-            
-
-    
