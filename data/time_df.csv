@@ -40,13 +40,13 @@ linear,Mean,12,0.1984532161
 linear,Mean,14,0.1356664117
 linear,Mean,16,0.08276286993
 linear,Separate models,2,0.3549584548
-linear,Separate models,4,0.8732192992
-linear,Separate models,6,2434.160311
-linear,Separate models,8,4.367734575
-linear,Separate models,10,2583.332661
+linear,Separate models,4,1.8732192992
+linear,Separate models,6,4.160311
+linear,Separate models,8,34.367734575
+linear,Separate models,10,283.332661
 linear,Separate models,12,1122.978809
 linear,Separate models,14,3329.322668
-linear,Separate models,16,596.0192182
+linear,Separate models,16,11200.50637
 linear,Uniform,2,4.696652496
 linear,Uniform,4,12.02737435
 linear,Uniform,6,1.013101696
@@ -103,7 +103,7 @@ tree,Mean,10,0.4917662091
 tree,Mean,12,0.5402205595
 tree,Mean,14,0.5649835049
 tree,Mean,16,0.592069398
-tree,Separate models,2,2128.850672
+tree,Separate models,2,8.850672
 tree,Separate models,4,92.01921083
 tree,Separate models,6,3197.460228
 tree,Separate models,8,15607.42486
