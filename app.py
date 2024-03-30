@@ -1083,7 +1083,7 @@ with tab_time:
         toff = pd.read_csv('data/tradeoff_repl.csv')
 
 
-        model = st.selectbox('###### Pick a model type', ['Model agnostic', 'Linear models', 'Tree-based models', 'Neural networks'], key='model_repl_time')
+        model = st.selectbox('###### Pick a model type: ', ['Model agnostic', 'Linear models', 'Tree-based models', 'Neural networks'], key='model_repl_time')
         compare_cat = {
             'Predetermined': ['Zero', 'Mean', 'Separate models'],
             'Marginal Distribution': ['Marginal', 'Uniform', 'Separate models'],
@@ -1117,9 +1117,9 @@ with tab_time:
         all_repl_time = st.checkbox("Select all", key='all_repl_time')
 
         if all_repl_time: 
-            repl_list_family_time = container_method.multiselect('###### Pick a replacement strategy', sorted(repl_list_time), sorted(repl_list_time), key='all_repl_time_1')
+            repl_list_family_time = container_method.multiselect('###### Pick a replacement strategy: ', sorted(repl_list_time), sorted(repl_list_time), key='all_repl_time_1')
         else: 
-            repl_list_family_time = container_method.multiselect('###### Pick a replacement strategy', sorted(repl_list_time), key='all_repl_time_2', default=sorted(repl_list_time))
+            repl_list_family_time = container_method.multiselect('###### Pick a replacement strategy: ', sorted(repl_list_time), key='all_repl_time_2', default=sorted(repl_list_time))
 
         
         col1, col2, col3 = st.columns([0.05, 2, 0.05])
