@@ -939,9 +939,9 @@ with tab_acc:
             all_app = st.checkbox("Select all", key='all_app')
 
             if all_app: 
-                app_list_family = container_method.multiselect('###### Pick an estimation strategy', sorted(app_list), sorted(app_list), key='all_app_1')
+                app_list_family = container_method.multiselect('###### Pick an estimation strategy: ', sorted(app_list), sorted(app_list), key='all_app_1')
             else: 
-                app_list_family = container_method.multiselect('###### Pick an estimation strategy', sorted(app_list), key='all_app_2', default=sorted(app_list))
+                app_list_family = container_method.multiselect('###### Pick an estimation strategy: ', sorted(app_list), key='all_app_2', default=sorted(app_list))
 
             col1, col2, col3 = st.columns([0.05, 2, 0.05])
             with col2:
@@ -996,9 +996,9 @@ with tab_acc:
             all_app = st.checkbox("Select all", key='all_app')
 
             if all_app: 
-                app_list_family = container_method.multiselect('###### Pick an estimation strategy', sorted(app_list), sorted(app_list), key='all_app_1')
+                app_list_family = container_method.multiselect('###### Pick an estimation strategy: ', sorted(app_list), sorted(app_list), key='all_app_1')
             else: 
-                app_list_family = container_method.multiselect('###### Pick an estimation strategy', sorted(app_list), key='all_app_2', default=sorted(app_list))
+                app_list_family = container_method.multiselect('###### Pick an estimation strategy: ', sorted(app_list), key='all_app_2', default=sorted(app_list))
             
             col1, col2, col3 = st.columns([0.05, 2, 0.05])
             with col2:
@@ -1052,9 +1052,9 @@ with tab_acc:
             all_app = st.checkbox("Select all", key='all_app')
 
             if all_app: 
-                app_list_family = container_method.multiselect('###### Pick an estimation strategy', sorted(app_list), sorted(app_list), key='all_app_1')
+                app_list_family = container_method.multiselect('###### Pick an estimation strategy: ', sorted(app_list), sorted(app_list), key='all_app_1')
             else: 
-                app_list_family = container_method.multiselect('###### Pick an estimation strategy', sorted(app_list), key='all_app_2', default=sorted(app_list))
+                app_list_family = container_method.multiselect('###### Pick an estimation strategy: ', sorted(app_list), key='all_app_2', default=sorted(app_list))
             col1, col2, col3 = st.columns([0.05, 2, 0.05])
             with col2:
                 st.markdown('#### Statistical test rankings: ')
@@ -1245,9 +1245,9 @@ with tab_time:
             all_app = st.checkbox("Select all", key='all_app_time')
 
             if all_app: 
-                app_list_family_time = container_method.multiselect('###### Pick an estimation strategy', sorted(app_list), sorted(app_list), key='all_app_time_1')
+                app_list_family_time = container_method.multiselect('###### Pick an estimation strategy:', sorted(app_list), sorted(app_list), key='all_app_time_1')
             else: 
-                app_list_family_time = container_method.multiselect('###### Pick an estimation strategy', sorted(app_list), key='all_app_time_2', default=sorted(app_list))
+                app_list_family_time = container_method.multiselect('###### Pick an estimation strategy:', sorted(app_list), key='all_app_time_2', default=sorted(app_list))
         
                 
 
@@ -1289,9 +1289,9 @@ with tab_time:
             all_app = st.checkbox("Select all", key='all_app_time')
 
             if all_app: 
-                app_list_family_time = container_method.multiselect('###### Pick an estimation strategy', sorted(app_list), sorted(app_list), key='all_app_time_1')
+                app_list_family_time = container_method.multiselect('###### Pick an estimation strategy:', sorted(app_list), sorted(app_list), key='all_app_time_1')
             else: 
-                app_list_family_time = container_method.multiselect('###### Pick an estimation strategy', sorted(app_list), key='all_app_time_2', default=sorted(app_list))
+                app_list_family_time = container_method.multiselect('###### Pick an estimation strategy:', sorted(app_list), key='all_app_time_2', default=sorted(app_list))
 
 
 
@@ -1333,9 +1333,9 @@ with tab_time:
             all_app = st.checkbox("Select all", key='all_app_time')
 
             if all_app: 
-                app_list_family_time = container_method.multiselect('###### Pick an estimation strategy', sorted(app_list), sorted(app_list), key='all_app_time_1')
+                app_list_family_time = container_method.multiselect('###### Pick an estimation strategy:', sorted(app_list), sorted(app_list), key='all_app_time_1')
             else: 
-                app_list_family_time = container_method.multiselect('###### Pick an estimation strategy', sorted(app_list), key='all_app_time_2', default=sorted(app_list))
+                app_list_family_time = container_method.multiselect('###### Pick an estimation strategy:', sorted(app_list), key='all_app_time_2', default=sorted(app_list))
 
 
 
@@ -1377,9 +1377,9 @@ with tab_time:
             all_app = st.checkbox("Select all", key='all_app_time')
 
             if all_app: 
-                app_list_family_time = container_method.multiselect('###### Pick an estimation strategy', sorted(app_list), sorted(app_list), key='all_app_time_1')
+                app_list_family_time = container_method.multiselect('###### Pick an estimation strategy:', sorted(app_list), sorted(app_list), key='all_app_time_1')
             else: 
-                app_list_family_time = container_method.multiselect('###### Pick an estimation strategy', sorted(app_list), key='all_app_time_2', default=sorted(app_list))
+                app_list_family_time = container_method.multiselect('###### Pick an estimation strategy:', sorted(app_list), key='all_app_time_2', default=sorted(app_list))
 
         else:
             print("Not implemented!")
