@@ -615,7 +615,6 @@ with tab_framework:
             | Parametric KernelSHAP                     | WLS                                   | Conditional: Gaussian/Copula                        |  
             | Non-Parametric KernelSHAP                 | WLS                                   | Conditional: Empirical                              |   
             | SGD-Shapley                               | WLS                                   | Predetermined: Mean                                 |    
-            # | FastSHAP                                  | WLS                                   | Conditional: Surrogate model                        |   
             | Independent LinearSHAP                    | Linear                                | Marginal: Empirical                                 |    
             | Correlated LinearSHAP                     | Linear                                | Conditional: Gaussian                               |   
             | Tree Interventional                       | Tree                                  | Marginal: Empirical                                 |   
@@ -625,6 +624,7 @@ with tab_framework:
             | DASP                                      | Deep                                  | Predetermined: Mean                                 |   
         """
         )
+            # | FastSHAP                                  | WLS                                   | Conditional: Surrogate model                        |   
 
     with tab_2:        
         st.markdown('### Evaluation metrics: ')
