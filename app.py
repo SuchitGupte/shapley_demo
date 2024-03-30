@@ -615,7 +615,7 @@ with tab_framework:
             | Parametric KernelSHAP                     | WLS                                   | Conditional: Gaussian/Copula                        |  
             | Non-Parametric KernelSHAP                 | WLS                                   | Conditional: Empirical                              |   
             | SGD-Shapley                               | WLS                                   | Predetermined: Mean                                 |    
-            | FastSHAP                                  | WLS                                   | Conditional: Surrogate model                        |   
+            # | FastSHAP                                  | WLS                                   | Conditional: Surrogate model                        |   
             | Independent LinearSHAP                    | Linear                                | Marginal: Empirical                                 |    
             | Correlated LinearSHAP                     | Linear                                | Conditional: Gaussian                               |   
             | Tree Interventional                       | Tree                                  | Marginal: Empirical                                 |   
