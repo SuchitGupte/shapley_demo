@@ -516,7 +516,8 @@ with tab_desc:
     We generate these explanations using the most accurate Shapley value approximation technique, which we have inferred from our comprehensive evaluation. 
     """
     )
-
+    st.image('descriptionImg.jpg', caption='Overview of ShapX Engine')
+    # st.image('descv2.jpg', caption='Overview of ShapX Engine')
     # st.markdown(
     # """
     # ## Datasets
@@ -603,9 +604,9 @@ with tab_framework:
         # """
         # )
         st.markdown("""
-            | Approaches                                | Estimation strategy                   | Replacement strategy                                         | 
+            | Approaches                                | Estimation strategy                   | Replacement strategy                                | 
             |-------------------------------------------|---------------------------------------|-----------------------------------------------------|
-            | Exhaustive Sampling                       | Exact                                 | Conditional: Separate Models                        |   
+            | Exhaustive Sampling                       | Exact                                 | Separate Models                                     |   
             | Interactions-based Method for Explanation | RO                                    | Marginal: Empirical                                 |  
             | Conditional Expectations Shapley          | RO                                    | Conditional: Empirical                              | 
             | Shapley Cohort refinement                 | RO                                    | Conditional: Empirical                              |
@@ -708,20 +709,54 @@ with tab_acc:
     A strategy with an $R^2$  value approaching 1 indicates that it can approximate the Shapley values accurately.
     """
     )
+
     tab_repl, tab_app = st.tabs(["Replacement Strategy", "Approximations"])  
     with tab_repl:
         df = pd.read_csv('data/agnostic.csv')
         statplot_df = pd.read_csv('data/statplot_df.csv')
-        model = st.selectbox('###### Pick a model type', ['Model agnostic', 'Linear models', 'Tree-based models', 'Neural networks'], key='model_repl')
+        model = st.selectbox('###### Pick a model type:', ['Model agnostic', 'Linear models', 'Tree-based models', 'Neural networks'], key='model_repl')
         
-        repl_list = list(set(df['Replacement Strategy'].values))
+        # rep_cat = st.selectbox('###### Pick a replacement category:', ['Predetermined', 'Marginal Distribution', 'Conditional Distribution'], key='repl_cat')
+    
+
+        compare_cat = {
+            'Predetermined': ['Zero', 'Mean', 'Separate models'],
+            'Marginal Distribution': ['Marginal', 'Uniform', 'Separate models'],
+            'Conditional Distribution': ['Conditional', 'Gaussian', 'Copula', 'Separate models']
+        }
+        container_method = st.container()
+        all_repl_cat = st.checkbox("Select all", key='all_repl_cat_time')
+        
+        if all_repl_cat: 
+            repl_cat_list_family = container_method.multiselect('###### Pick a replacement category: ', ['Predetermined', 'Marginal Distribution', 'Conditional Distribution'], ['Predetermined', 'Marginal Distribution', 'Conditional Distribution'], key='repl_cat1_time')
+        else: 
+            repl_cat_list_family = container_method.multiselect('###### Pick a replacement category: ',['Predetermined', 'Marginal Distribution', 'Conditional Distribution'], key='repl_cat2_time',  default=['Predetermined', 'Marginal Distribution', 'Conditional Distribution'])
+        
+        values = [compare_cat[key] for key in repl_cat_list_family]
+        # st.markdown(values)
+
+        repl_categories_l = list()
+        if len(values) != 0:
+            for val in values:
+                for v in val:
+                    repl_categories_l.append(v)
+        else:
+            st.error('Please select a replacement category!', icon="🚨")
+
+        repl_categories = list(set(sorted(repl_categories_l)))
+        # st.markdown(repl_categories)
+        
+        # repl_list = list(set(df['Replacement Strategy'].values))
+        repl_list = repl_categories
         container_method = st.container()
         all_repl = st.checkbox("Select all", key='all_repl')
 
+
         if all_repl: 
-            repl_list_family = container_method.multiselect('###### Pick a replacement strategy', sorted(repl_list), sorted(repl_list), key='all_repl_1')
+            repl_list_family = container_method.multiselect('###### Replacement strategies: ', sorted(repl_list), sorted(repl_list), key='all_repl_1')
         else: 
-            repl_list_family = container_method.multiselect('###### Pick a replacement strategy', sorted(repl_list), key='all_repl_2', default=sorted(repl_list))
+            repl_list_family = container_method.multiselect('###### Replacement strategies: ', sorted(repl_list), key='all_repl_2', default=sorted(repl_list))
+
 
         
         if model == 'Model agnostic':
@@ -729,8 +764,12 @@ with tab_acc:
             with col2:
                 statplot_df_mod = statplot_df[statplot_df['Replacement Strategy'].isin(repl_list_family)]
                 st.markdown('#### Statistical test rankings: ')
+
+
                 if len(repl_list_family) <= 2:
-                    st.markdown("###### Select atleast 3 replacement strategies for obtaining a statistical ranking")
+                    st.warning('Select atleast 3 replacement strategies for obtaining a statistical ranking!', icon="⚠️")
+
+                    # st.markdown("###### Select atleast 3 replacement strategies for obtaining a statistical ranking")
                 else:
                     draw_cd_diagram(strategy='Replacement Strategy', metric='accuracy', asc=False, df_perf=statplot_df_mod, labels=True)
                 
@@ -748,7 +787,9 @@ with tab_acc:
                 statplot_df_mod = statplot_df[statplot_df['Replacement Strategy'].isin(repl_list_family)]
                 st.markdown('#### Statistical test rankings: ')
                 if len(repl_list_family) <= 2:
-                    st.markdown("###### Select atleast 3 replacement strategies for obtaining a statistical ranking")
+                    # st.markdown("###### Select atleast 3 replacement strategies for obtaining a statistical ranking")
+                    st.warning('Select atleast 3 replacement strategies for obtaining a statistical ranking!', icon="⚠️")
+
                 else:
                     draw_cd_diagram(strategy='Replacement Strategy', metric='accuracy', asc=False, df_perf=statplot_df_mod, labels=True)
             
@@ -767,7 +808,9 @@ with tab_acc:
                 statplot_df_mod = statplot_df[statplot_df['Replacement Strategy'].isin(repl_list_family)]
                 st.markdown('#### Statistical test rankings: ')
                 if len(repl_list_family) <= 2:
-                    st.markdown("###### Select atleast 3 replacement strategies for obtaining a statistical ranking")
+                    # st.markdown("###### Select atleast 3 replacement strategies for obtaining a statistical ranking")
+                    st.warning('Select atleast 3 replacement strategies for obtaining a statistical ranking!', icon="⚠️")
+
                 else:
                     draw_cd_diagram(strategy='Replacement Strategy', metric='accuracy', asc=False, df_perf=statplot_df_mod, labels=True)
 
@@ -786,7 +829,9 @@ with tab_acc:
                 statplot_df_mod = statplot_df[statplot_df['Replacement Strategy'].isin(repl_list_family)]
                 st.markdown('#### Statistical test rankings: ')
                 if len(repl_list_family) <= 2:
-                    st.markdown("###### Select atleast 3 replacement strategies for obtaining a statistical ranking")
+                    # st.markdown("###### Select atleast 3 replacement strategies for obtaining a statistical ranking")
+                    st.warning('Select atleast 3 replacement strategies for obtaining a statistical ranking!', icon="⚠️")
+
                 else:
                     draw_cd_diagram(strategy='Replacement Strategy', metric='accuracy', asc=False, df_perf=statplot_df_mod, labels=True)
 
@@ -798,24 +843,57 @@ with tab_acc:
             print("Not yet implemented")
 
     with tab_app:
-        model = st.selectbox('###### Pick a model type', ['Model agnostic', 'Linear models', 'Tree-based models', 'Neural networks'], key='model_app')
+        model = st.selectbox('###### Pick a model type: ', ['Model agnostic', 'Linear models', 'Tree-based models', 'Neural networks'], key='model_app')
         
         if model == 'Model agnostic':
             app_df = pd.read_csv("data/tables/agnostic.csv")
-            app_list = list(set(app_df['Approximation'].values))
+            compare_est = {
+            'Random Order': ['Exhaustive', 'IME', 'CES', 'Cohort'],
+            'Weighted Least Squares': ['KernelSHAP', 'SGDShapely', 'Exhaustive', 'Parametric KernelSHAP', 'Non-parametric KernelSHAP'],
+            'Multilinear Extension': ['MLE', 'Exhaustive', 'IME'],
+            # 'Linear': ['Linear (correlated)', 'Linear (independent)', 'Exhaustive'],
+            # 'Tree': ['Tree (path dependent)', 'Tree (interventional)', 'Exhaustive'],
+            # 'Deep': ['DASP', 'DeepLIFT', 'DeepSHAP']
+            }
+            container_method = st.container()
+            all_est_cat = st.checkbox("Select all", key='all_est_cat')
+            
+            if all_est_cat: 
+                est_cat_list_family = container_method.multiselect('###### Pick an estimation strategy: ', ['Random Order', 'Weighted Least Squares', 'Multilinear Extension'], ['Random Order', 'Weighted Least Squares', 'Multilinear Extension'], key='est_cat1')
+            else: 
+                est_cat_list_family = container_method.multiselect('###### Pick an estimation strategy: ',['Random Order', 'Weighted Least Squares', 'Multilinear Extension'], key='est_cat2',  default=['Random Order', 'Weighted Least Squares', 'Multilinear Extension'])
+            
+            values = [compare_est[key] for key in est_cat_list_family]
+            # st.markdown(values)
+
+            est_categories_l = list()
+            if len(values) != 0:
+                for val in values:
+                    for v in val:
+                        est_categories_l.append(v)
+            else:
+                st.error('Please select an estimation strategy!', icon="🚨")
+            
+            est_categories = list(set(sorted(est_categories_l)))
+            # st.markdown(est_categories)
+            
+            # app_list = list(set(app_df['Approximation'].values))
+            app_list = est_categories
             container_method = st.container()
             all_app = st.checkbox("Select all", key='all_app')
 
             if all_app: 
-                app_list_family = container_method.multiselect('###### Pick an estimation strategy', sorted(app_list), sorted(app_list), key='all_app_1')
+                app_list_family = container_method.multiselect('###### Pick an approximation: ', sorted(app_list), sorted(app_list), key='all_app_1')
             else: 
-                app_list_family = container_method.multiselect('###### Pick an estimation strategy', sorted(app_list), key='all_app_2', default=sorted(app_list))
+                app_list_family = container_method.multiselect('###### Pick an approximation: ', sorted(app_list), key='all_app_2', default=sorted(app_list))
             
             col1, col2, col3 = st.columns([0.05, 2, 0.05])
             with col2:
                 st.markdown('#### Statistical test rankings: ')
                 if len(app_list_family) <= 2:
-                    st.markdown("###### Select atleast 3 estimation strategies for obtaining a statistical ranking")
+                    # st.markdown("###### Select atleast 3 estimation strategies for obtaining a statistical ranking")
+                    st.warning('Select atleast 3 replacement strategies for obtaining a statistical ranking!', icon="⚠️")
+
                 else:
                     statplot_df_mod = app_df[app_df['Approximation'].isin(app_list_family)]
                     draw_cd_diagram(strategy='Approximation', metric='Accuracy', asc=False, df_perf=statplot_df_mod, labels=True)
@@ -825,7 +903,38 @@ with tab_acc:
 
         elif model == 'Linear models':
             app_df = pd.read_csv("data/tables/linear.csv")
-            app_list = list(set(app_df['Approximation'].values))
+            compare_est = {
+            'Random Order': ['Exhaustive', 'IME', 'CES', 'Cohort'],
+            'Weighted Least Squares': ['KernelSHAP', 'SGDShapely', 'Exhaustive', 'Parametric KernelSHAP', 'Non-parametric KernelSHAP'],
+            'Multilinear Extension': ['MLE', 'Exhaustive', 'IME'],
+            'Linear': ['Linear (correlated)', 'Linear (independent)', 'Exhaustive'],
+            # 'Tree': ['Tree (path dependent)', 'Tree (interventional)', 'Exhaustive'],
+            # 'Deep': ['DASP', 'DeepLIFT', 'DeepSHAP']
+            }
+            container_method = st.container()
+            all_est_cat = st.checkbox("Select all", key='all_est_cat')
+            
+            if all_est_cat: 
+                est_cat_list_family = container_method.multiselect('###### Pick an estimation strategy: ', ['Random Order', 'Weighted Least Squares', 'Multilinear Extension','Linear'], ['Random Order', 'Weighted Least Squares', 'Multilinear Extension','Linear'], key='est_cat1')
+            else: 
+                est_cat_list_family = container_method.multiselect('###### Pick an estimation strategy: ',['Random Order', 'Weighted Least Squares', 'Multilinear Extension','Linear'], key='est_cat2',  default=['Random Order', 'Weighted Least Squares', 'Multilinear Extension','Linear'])
+            
+            values = [compare_est[key] for key in est_cat_list_family]
+            # st.markdown(values)
+
+            est_categories_l = list()
+            if len(values) != 0:
+                for val in values:
+                    for v in val:
+                        est_categories_l.append(v)
+            else:
+                st.error('Please select an estimation strategy!', icon="🚨")
+            
+            est_categories = list(set(sorted(est_categories_l)))
+            # st.markdown(est_categories)
+
+            app_list = est_categories
+            # app_list = list(set(app_df['Approximation'].values))
             container_method = st.container()
             all_app = st.checkbox("Select all", key='all_app')
 
@@ -838,7 +947,9 @@ with tab_acc:
             with col2:
                 st.markdown('#### Statistical test rankings: ')
                 if len(app_list_family) <= 2:
-                    st.markdown("###### Select atleast 3 estimation strategies for obtaining a statistical ranking")
+                    # st.markdown("###### Select atleast 3 estimation strategies for obtaining a statistical ranking")
+                    st.warning('Select atleast 3 replacement strategies for obtaining a statistical ranking!', icon="⚠️")
+
                 else:
                     statplot_df_mod = app_df[app_df['Approximation'].isin(app_list_family)]
                     draw_cd_diagram(strategy='Approximation', metric='Accuracy', asc=False, df_perf=statplot_df_mod, labels=True)
@@ -848,7 +959,39 @@ with tab_acc:
 
         elif model == 'Tree-based models':
             app_df = pd.read_csv("data/tables/tree.csv")
-            app_list = list(set(app_df['Approximation'].values))
+            compare_est = {
+            'Random Order': ['Exhaustive', 'IME', 'CES', 'Cohort'],
+            'Weighted Least Squares': ['KernelSHAP', 'SGDShapely', 'Exhaustive', 'Parametric KernelSHAP', 'Non-parametric KernelSHAP'],
+            'Multilinear Extension': ['MLE', 'Exhaustive', 'IME'],
+            # 'Linear': ['Linear (correlated)', 'Linear (independent)', 'Exhaustive'],
+            'Tree': ['Tree (path dependent)', 'Tree (interventional)', 'Exhaustive'],
+            # 'Deep': ['DASP', 'DeepLIFT', 'DeepSHAP']
+            }
+            container_method = st.container()
+            all_est_cat = st.checkbox("Select all", key='all_est_cat')
+            
+            if all_est_cat: 
+                est_cat_list_family = container_method.multiselect('###### Pick an estimation strategy: ', ['Random Order', 'Weighted Least Squares', 'Multilinear Extension', 'Tree'], ['Random Order', 'Weighted Least Squares', 'Multilinear Extension', 'Tree'], key='est_cat1')
+            else: 
+                est_cat_list_family = container_method.multiselect('###### Pick an estimation strategy: ',['Random Order', 'Weighted Least Squares', 'Multilinear Extension', 'Tree'], key='est_cat2',  default=['Random Order', 'Weighted Least Squares', 'Multilinear Extension', 'Tree'])
+            
+            values = [compare_est[key] for key in est_cat_list_family]
+            # st.markdown(values)
+
+            est_categories_l = list()
+            if len(values) != 0:
+                for val in values:
+                    for v in val:
+                        est_categories_l.append(v)
+            else:
+                st.error('Please select an estimation strategy!', icon="🚨")
+            
+            est_categories = list(set(sorted(est_categories_l)))
+            # st.markdown(est_categories)
+            
+            # app_list = list(set(app_df['Approximation'].values))
+            app_list = est_categories
+            # app_list = list(set(app_df['Approximation'].values))
             container_method = st.container()
             all_app = st.checkbox("Select all", key='all_app')
 
@@ -861,7 +1004,8 @@ with tab_acc:
             with col2:
                 st.markdown('#### Statistical test rankings: ')
                 if len(app_list_family) <= 2:
-                    st.markdown("###### Select atleast 3 estimation strategies for obtaining a statistical ranking")
+                    # st.markdown("###### Select atleast 3 estimation strategies for obtaining a statistical ranking")
+                    st.warning('Select atleast 3 replacement strategies for obtaining a statistical ranking!', icon="⚠️")
                 else:
                     statplot_df_mod = app_df[app_df['Approximation'].isin(app_list_family)]
                     draw_cd_diagram(strategy='Approximation', metric='Accuracy', asc=False, df_perf=statplot_df_mod, labels=True)
@@ -871,7 +1015,39 @@ with tab_acc:
 
         elif model == 'Neural networks':
             app_df = pd.read_csv("data/tables/nn.csv")
-            app_list = list(set(app_df['Approximation'].values))
+            compare_est = {
+            'Random Order': ['Exhaustive', 'IME', 'CES', 'Cohort'],
+            'Weighted Least Squares': ['KernelSHAP', 'SGDShapely', 'Exhaustive', 'Parametric KernelSHAP', 'Non-parametric KernelSHAP'],
+            'Multilinear Extension': ['MLE', 'Exhaustive', 'IME'],
+            # 'Linear': ['Linear (correlated)', 'Linear (independent)', 'Exhaustive'],
+            # 'Tree': ['Tree (path dependent)', 'Tree (interventional)', 'Exhaustive'],
+            'Deep': ['DASP', 'DeepLIFT', 'DeepSHAP']
+            }
+            container_method = st.container()
+            all_est_cat = st.checkbox("Select all", key='all_est_cat')
+            
+            if all_est_cat: 
+                est_cat_list_family = container_method.multiselect('###### Pick an estimation strategy: ', ['Random Order', 'Weighted Least Squares', 'Multilinear Extension', 'Deep'], ['Random Order', 'Weighted Least Squares', 'Multilinear Extension', 'Deep'], key='est_cat1')
+            else: 
+                est_cat_list_family = container_method.multiselect('###### Pick an estimation strategy: ',['Random Order', 'Weighted Least Squares', 'Multilinear Extension', 'Deep'], key='est_cat2',  default=['Random Order', 'Weighted Least Squares', 'Multilinear Extension', 'Deep'])
+            
+            values = [compare_est[key] for key in est_cat_list_family]
+            # st.markdown(values)
+
+            est_categories_l = list()
+            if len(values) != 0:
+                for val in values:
+                    for v in val:
+                        est_categories_l.append(v)
+            else:
+                st.error('Please select an estimation strategy!', icon="🚨")
+            
+            est_categories = list(set(sorted(est_categories_l)))
+            # st.markdown(est_categories)
+            
+            # app_list = list(set(app_df['Approximation'].values))
+            app_list = est_categories
+            # app_list = list(set(app_df['Approximation'].values))
             container_method = st.container()
             all_app = st.checkbox("Select all", key='all_app')
 
@@ -883,7 +1059,9 @@ with tab_acc:
             with col2:
                 st.markdown('#### Statistical test rankings: ')
                 if len(app_list_family) <= 2:
-                    st.markdown("###### Select atleast 3 estimation strategies for obtaining a statistical ranking")
+                    # st.markdown("###### Select atleast 3 estimation strategies for obtaining a statistical ranking")
+                    st.warning('Select atleast 3 replacement strategies for obtaining a statistical ranking!', icon="⚠️")
+
                 else:
                     statplot_df_mod = app_df[app_df['Approximation'].isin(app_list_family)]
                     draw_cd_diagram(strategy='Approximation', metric='Accuracy', asc=False, df_perf=statplot_df_mod, labels=True)
@@ -902,10 +1080,39 @@ with tab_time:
     with tab_repl:
         df = pd.read_csv('data/agnostic.csv')
         df2 = pd.read_csv('data/time_df.csv')
+        toff = pd.read_csv('data/tradeoff_repl.csv')
+
 
         model = st.selectbox('###### Pick a model type', ['Model agnostic', 'Linear models', 'Tree-based models', 'Neural networks'], key='model_repl_time')
+        compare_cat = {
+            'Predetermined': ['Zero', 'Mean', 'Separate models'],
+            'Marginal Distribution': ['Marginal', 'Uniform', 'Separate models'],
+            'Conditional Distribution': ['Conditional', 'Gaussian', 'Copula', 'Separate models']
+        }
+        container_method = st.container()
+        all_repl_cat = st.checkbox("Select all", key='all_repl_cat')
         
-        repl_list_time = list(set(df['Replacement Strategy'].values))
+        if all_repl_cat: 
+            repl_cat_list_family = container_method.multiselect('###### Pick a replacement category: ', ['Predetermined', 'Marginal Distribution', 'Conditional Distribution'], ['Predetermined', 'Marginal Distribution', 'Conditional Distribution'], key='repl_cat1')
+        else: 
+            repl_cat_list_family = container_method.multiselect('###### Pick a replacement category: ',['Predetermined', 'Marginal Distribution', 'Conditional Distribution'], key='repl_cat2',  default=['Predetermined', 'Marginal Distribution', 'Conditional Distribution'])
+        
+        values = [compare_cat[key] for key in repl_cat_list_family]
+        # st.markdown(values)
+
+        repl_categories_l = list()
+        if len(values) != 0:
+            for val in values:
+                for v in val:
+                    repl_categories_l.append(v)
+        else:
+            st.error('Please select a replacement category!', icon="🚨")
+
+        repl_categories = list(set(sorted(repl_categories_l)))
+
+
+        # repl_list_time = list(set(df['Replacement Strategy'].values))
+        repl_list_time = repl_categories
         container_method = st.container()
         all_repl_time = st.checkbox("Select all", key='all_repl_time')
 
@@ -922,19 +1129,26 @@ with tab_time:
             if model == 'Model agnostic':
                 time_df = df
                 time_df2 = pd.read_csv("data/time_agn.csv")
+                toff_df = toff[toff['Model'] == 'agnostic']
 
             elif model == 'Linear models':
                 time_df = df[df['Model'] == 'Linear Regression']
                 time_df2 = df2[df2['Model'] == 'linear']
+                toff_df = toff[toff['Model'] == 'linear']
+
 
             elif model == 'Tree-based models':
                 time_df = df[df['Model'] == 'XGBoost']
                 time_df2 = df2[df2['Model'] == 'tree']
+                toff_df = toff[toff['Model'] == 'tree']
+
 
 
             elif model == 'Neural networks':
                 time_df = df[df['Model'] == 'Neural network']
                 time_df2 = df2[df2['Model'] == 'nn']
+                toff_df = toff[toff['Model'] == 'nn']
+
 
             else:
                 print("Not implemented")
@@ -971,13 +1185,62 @@ with tab_time:
 
             st.markdown('####  Impact of increasing dimensionality on compute time : ')
             st.altair_chart(line_chart, use_container_width=True)
+                        
+            st.markdown("#### Accuracy-Compute time tradeoff: ")
+            scatter_chart = alt.Chart(toff_df[toff_df['Replacement Strategy'].isin(repl_list_family_time)]).mark_circle().encode(
+                x=alt.X("Time:Q",  scale=alt.Scale(type='log')),
+                y=alt.Y("Accuracy", scale=alt.Scale(domain=[70, 100])),
+                color=alt.Color("Replacement Strategy:N", scale=alt.Scale(scheme='magma')),
+                # size = 'Estimation Strategy'
+                size=alt.Size('Replacement Category', scale=alt.Scale(range=[250, 1000]), legend=None)
+            ).properties(
+                width=600,
+                height=400
+            ).configure_axis(
+                labelFontSize=14,  # Adjust label font size
+                titleFontSize=18,  # Adjust title font size
+                tickSize=14  # Adjust tick size
+            ).interactive()
+
+            st.altair_chart(scatter_chart, use_container_width=True)
 
     with tab_app:
         model = st.selectbox('###### Pick a model type', ['Model agnostic', 'Linear models', 'Tree-based models', 'Neural networks'], key='model_app_time')
 
         if model == 'Model agnostic':
             time_df = pd.read_csv("data/tables/agnostic.csv")
-            app_list = list(set(time_df['Approximation'].values))
+            compare_est = {
+            'Random Order': ['Exhaustive', 'IME', 'CES', 'Cohort'],
+            'Weighted Least Squares': ['KernelSHAP', 'SGDShapely', 'Exhaustive', 'Parametric KernelSHAP', 'Non-parametric KernelSHAP'],
+            'Multilinear Extension': ['MLE', 'Exhaustive', 'IME'],
+            # 'Linear': ['Linear (correlated)', 'Linear (independent)', 'Exhaustive'],
+            # 'Tree': ['Tree (path dependent)', 'Tree (interventional)', 'Exhaustive'],
+            # 'Deep': ['DASP', 'DeepLIFT', 'DeepSHAP']
+            }
+            container_method = st.container()
+            all_est_cat = st.checkbox("Select all", key='all_est_cat_time')
+            
+            if all_est_cat: 
+                est_cat_list_family = container_method.multiselect('###### Pick an estimation strategy: ', ['Random Order', 'Weighted Least Squares', 'Multilinear Extension'], ['Random Order', 'Weighted Least Squares', 'Multilinear Extension'], key='est_cat1_time')
+            else: 
+                est_cat_list_family = container_method.multiselect('###### Pick an estimation strategy: ',['Random Order', 'Weighted Least Squares', 'Multilinear Extension'], key='est_cat2_time',  default=['Random Order', 'Weighted Least Squares', 'Multilinear Extension'])
+            
+            values = [compare_est[key] for key in est_cat_list_family]
+            # st.markdown(values)
+
+            est_categories_l = list()
+            if len(values) != 0:
+                for val in values:
+                    for v in val:
+                        est_categories_l.append(v)
+            else:
+                st.error('Please select an estimation strategy!', icon="🚨")
+            
+            est_categories = list(set(sorted(est_categories_l)))
+
+
+            # app_list = list(set(time_df['Approximation'].values))
+            app_list = est_categories
             container_method = st.container()
             all_app = st.checkbox("Select all", key='all_app_time')
 
@@ -990,7 +1253,38 @@ with tab_time:
 
         elif model == 'Linear models':
             time_df = pd.read_csv("data/tables/linear.csv")
-            app_list = list(set(time_df['Approximation'].values))
+            compare_est = {
+            'Random Order': ['Exhaustive', 'IME', 'CES', 'Cohort'],
+            'Weighted Least Squares': ['KernelSHAP', 'SGDShapely', 'Exhaustive', 'Parametric KernelSHAP', 'Non-parametric KernelSHAP'],
+            'Multilinear Extension': ['MLE', 'Exhaustive', 'IME'],
+            'Linear': ['Linear (correlated)', 'Linear (independent)', 'Exhaustive'],
+            # 'Tree': ['Tree (path dependent)', 'Tree (interventional)', 'Exhaustive'],
+            # 'Deep': ['DASP', 'DeepLIFT', 'DeepSHAP']
+            }
+            container_method = st.container()
+            all_est_cat = st.checkbox("Select all", key='all_est_cat_time')
+            
+            if all_est_cat: 
+                est_cat_list_family = container_method.multiselect('###### Pick an estimation strategy: ', ['Random Order', 'Weighted Least Squares', 'Multilinear Extension','Linear'], ['Random Order', 'Weighted Least Squares', 'Multilinear Extension','Linear'], key='est_cat1_time')
+            else: 
+                est_cat_list_family = container_method.multiselect('###### Pick an estimation strategy: ',['Random Order', 'Weighted Least Squares', 'Multilinear Extension','Linear'], key='est_cat2_time',  default=['Random Order', 'Weighted Least Squares', 'Multilinear Extension','Linear'])
+            
+            values = [compare_est[key] for key in est_cat_list_family]
+            # st.markdown(values)
+
+            est_categories_l = list()
+            if len(values) != 0:
+                for val in values:
+                    for v in val:
+                        est_categories_l.append(v)
+            else:
+                st.error('Please select an estimation strategy!', icon="🚨")
+            
+            est_categories = list(set(sorted(est_categories_l)))
+
+            # app_list = list(set(time_df['Approximation'].values))
+            app_list = est_categories
+
             container_method = st.container()
             all_app = st.checkbox("Select all", key='all_app_time')
 
@@ -1003,7 +1297,38 @@ with tab_time:
 
         elif model == 'Tree-based models':
             time_df = pd.read_csv("data/tables/tree.csv")
-            app_list = list(set(time_df['Approximation'].values))
+            compare_est = {
+            'Random Order': ['Exhaustive', 'IME', 'CES', 'Cohort'],
+            'Weighted Least Squares': ['KernelSHAP', 'SGDShapely', 'Exhaustive', 'Parametric KernelSHAP', 'Non-parametric KernelSHAP'],
+            'Multilinear Extension': ['MLE', 'Exhaustive', 'IME'],
+            # 'Linear': ['Linear (correlated)', 'Linear (independent)', 'Exhaustive'],
+            'Tree': ['Tree (path dependent)', 'Tree (interventional)', 'Exhaustive'],
+            # 'Deep': ['DASP', 'DeepLIFT', 'DeepSHAP']
+            }
+            container_method = st.container()
+            all_est_cat = st.checkbox("Select all", key='all_est_cat_time')
+            
+            if all_est_cat: 
+                est_cat_list_family = container_method.multiselect('###### Pick an estimation strategy: ', ['Random Order', 'Weighted Least Squares', 'Multilinear Extension', 'Tree'], ['Random Order', 'Weighted Least Squares', 'Multilinear Extension', 'Tree'], key='est_cat1_time')
+            else: 
+                est_cat_list_family = container_method.multiselect('###### Pick an estimation strategy: ',['Random Order', 'Weighted Least Squares', 'Multilinear Extension', 'Tree'], key='est_cat2_time',  default=['Random Order', 'Weighted Least Squares', 'Multilinear Extension', 'Tree'])
+            
+            values = [compare_est[key] for key in est_cat_list_family]
+            # st.markdown(values)
+
+            est_categories_l = list()
+            if len(values) != 0:
+                for val in values:
+                    for v in val:
+                        est_categories_l.append(v)
+            else:
+                st.error('Please select an estimation strategy!', icon="🚨")
+            
+            est_categories = list(set(sorted(est_categories_l)))
+
+
+            # app_list = list(set(time_df['Approximation'].values))
+            app_list = est_categories
             container_method = st.container()
             all_app = st.checkbox("Select all", key='all_app_time')
 
@@ -1016,7 +1341,38 @@ with tab_time:
 
         elif model == 'Neural networks':
             time_df = pd.read_csv("data/tables/nn.csv")
-            app_list = list(set(time_df['Approximation'].values))
+            compare_est = {
+            'Random Order': ['Exhaustive', 'IME', 'CES', 'Cohort'],
+            'Weighted Least Squares': ['KernelSHAP', 'SGDShapely', 'Exhaustive', 'Parametric KernelSHAP', 'Non-parametric KernelSHAP'],
+            'Multilinear Extension': ['MLE', 'Exhaustive', 'IME'],
+            # 'Linear': ['Linear (correlated)', 'Linear (independent)', 'Exhaustive'],
+            # 'Tree': ['Tree (path dependent)', 'Tree (interventional)', 'Exhaustive'],
+            'Deep': ['DASP', 'DeepLIFT', 'DeepSHAP']
+            }
+            container_method = st.container()
+            all_est_cat = st.checkbox("Select all", key='all_est_cat_time')
+            
+            if all_est_cat: 
+                est_cat_list_family = container_method.multiselect('###### Pick an estimation strategy: ', ['Random Order', 'Weighted Least Squares', 'Multilinear Extension', 'Deep'], ['Random Order', 'Weighted Least Squares', 'Multilinear Extension', 'Deep'], key='est_cat1_time')
+            else: 
+                est_cat_list_family = container_method.multiselect('###### Pick an estimation strategy: ',['Random Order', 'Weighted Least Squares', 'Multilinear Extension', 'Deep'], key='est_cat2_time',  default=['Random Order', 'Weighted Least Squares', 'Multilinear Extension', 'Deep'])
+            
+            values = [compare_est[key] for key in est_cat_list_family]
+            # st.markdown(values)
+
+            est_categories_l = list()
+            if len(values) != 0:
+                for val in values:
+                    for v in val:
+                        est_categories_l.append(v)
+            else:
+                st.error('Please select an estimation strategy!', icon="🚨")
+            
+            est_categories = list(set(sorted(est_categories_l)))
+            # st.markdown(est_categories)
+
+            # app_list = list(set(time_df['Approximation'].values))
+            app_list = est_categories
             container_method = st.container()
             all_app = st.checkbox("Select all", key='all_app_time')
 
@@ -1064,7 +1420,26 @@ with tab_time:
 
             st.markdown('####  Impact of increasing dimensionality on compute time : ')
             st.altair_chart(line_chart, use_container_width=True)
-    
+
+            tradeoff = pd.read_csv('data/tables/tradeoff.csv')
+            st.markdown("#### Accuracy-Compute time tradeoff: ")
+            scatter_chart = alt.Chart(tradeoff[tradeoff['Approximation'].isin(app_list_family_time)]).mark_circle().encode(
+                x=alt.X("Time:Q",  scale=alt.Scale(type='log')),
+                y=alt.Y("Accuracy", scale=alt.Scale(domain=[90, 100])),
+                color=alt.Color("Approximation:N", scale=alt.Scale(scheme='magma')),
+                # size = 'Estimation Strategy'
+                size=alt.Size('Estimation Strategy', scale=alt.Scale(range=[250, 1000]), legend=None)
+            ).properties(
+                width=600,
+                height=400
+            ).configure_axis(
+                labelFontSize=14,  # Adjust label font size
+                titleFontSize=18,  # Adjust title font size
+                tickSize=14  # Adjust tick size
+            ).interactive()
+
+            st.altair_chart(scatter_chart, use_container_width=True)
+
 with tab_diy:
     # col1, col2, col3 = st.columns([0.25, 5, 0.25])
     # with col2:
@@ -1096,51 +1471,25 @@ with tab_diy:
         # st.dataframe(data, height=300)
         selection = dataframe_with_selections(data)
 
-        if len(selection) != 1:
+        if len(selection) < 1:
             st.error('Shapley values is a local feature attribution technique. Hence, select a single instance to explain!', icon="🚨")
         else:
-            st.write("Your selection:")
-            st.dataframe(selection, width=2000)
-            shap_vals = None
-            if model_load is not None:
-                exp = shap.explainers.Exact(model_load.predict, X_train)
-                shap_vals = exp(selection.iloc[:, :-1])
-            else:
-                st.error('Please upload a model file to generate explanations!', icon="🚨")
+            for s in range(len(selection)):
+                st.write("Instance of interest:")
+                st.dataframe(selection.iloc[s:s+1,:-1], width=2000)
+                shap_vals = None
+                if model_load is not None:
+                    exp = shap.explainers.Exact(model_load.predict, X_train)
+                    shap_vals = exp(selection.iloc[s:s+1,:-1])
+                else:
+                    st.error('Please upload a model file to generate explanations!', icon="🚨")
 
-            col1, col2, col3 = st.columns([0.05, 2, 0.05])
-            with col2:
-                if shap_vals is not None:
-                    with st.container(border=True):
-                        plot_shap_fig(shap_vals)
-    
-    
-    # with col13:
-    #     shap_vals = None
-    #     instance_file = st.file_uploader("Upload an Instance File (Must be a CSV file): ", type="csv")
-    #     if model_load is not None:
-    #         exp = shap.explainers.Exact(model_load.predict, X_train)
-    #     if instance_file is not None:
-    #         instance = pd.read_csv(instance_file)
-    #         # shap_vals = exp.shap_values(instance)
-    #         shap_vals = exp(instance)
-    #     else:
-    #         st.warning("Please upload a .csv instance file.")
+                col1, col2, col3 = st.columns([0.05, 2, 0.05])
+                with col2:
+                    if shap_vals is not None:
+                        with st.container(border=True):
+                            plot_shap_fig(shap_vals)
 
-    # col1, col2, col3 = st.columns([0.4, 2, 0.4])
-    # with col2:
-    #     if shap_vals is not None:
-    #         plot_shap_fig(shap_vals)
-
-
-
-# explainer = st.selectbox(
-# "Select an estimation technique:",
-# ("IME", "Kernel"),
-# index=None,
-# placeholder="Select explainer model...",
-# )
-# st.write('You selected: ', explainer)
 
 
 
