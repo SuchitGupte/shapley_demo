@@ -1205,7 +1205,7 @@ with tab_time:
             st.altair_chart(scatter_chart, use_container_width=True)
 
     with tab_app:
-        model = st.selectbox('###### Pick a model type', ['Model agnostic', 'Linear models', 'Tree-based models', 'Neural networks'], key='model_app_time')
+        model = st.selectbox('###### Pick a model type:', ['Model agnostic', 'Linear models', 'Tree-based models', 'Neural networks'], key='model_app_time')
 
         if model == 'Model agnostic':
             time_df = pd.read_csv("data/tables/agnostic.csv")
