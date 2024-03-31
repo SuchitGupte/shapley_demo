@@ -557,7 +557,7 @@ with tab_desc:
 with tab_framework:
     st.markdown('## Benchmark details: ')
 
-    tab_1, tab_2, tab_3, tab_4 = st.tabs(["Overview", "Evaluation metrics", "Datasets", "Models"])  
+    tab_1, tab_2, tab_3, tab_4 = st.tabs(["Overview", "Evaluation metrics", "Datasets & Models"])  
 
     with tab_1:
         background = Image.open('./data/replacement.png')
@@ -684,8 +684,6 @@ with tab_framework:
         * Download all the datasets [here](https://github.com/TheDatumOrg/ShapleyValuesEval/tree/main/data).
         
         """)
-
-    with tab_4:    
         st.markdown(
         """
         ### Models
@@ -695,6 +693,17 @@ with tab_framework:
         Consequently, this allows us to use vanilla versions of each model with default hyperparameters.
         """
         )
+
+    # with tab_4:    
+    #     st.markdown(
+    #     """
+    #     ### Models
+                    
+    #     We broadly classify the supervised machine learning models used to tackle regression-based problems into 5 categories - Linear models, Ensemble Learning, Gradient Boosting, Neural Networks, and Support Vector Machines. 
+    #     To conduct a thorough evaluation, we integrate models representing each category. Shapley values intend to explain a black box model by leveraging the model itself, thereby negating the significance of the model's fit quality. 
+    #     Consequently, this allows us to use vanilla versions of each model with default hyperparameters.
+    #     """
+    #     )
     
 with tab_acc:
     # col1, col2, col3 = st.columns([0.25, 5, 0.25])
