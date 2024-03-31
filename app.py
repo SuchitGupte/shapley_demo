@@ -557,7 +557,7 @@ with tab_desc:
 with tab_framework:
     st.markdown('## Benchmark details: ')
 
-    tab_1, tab_2, tab_3, tab_4 = st.tabs(["Overview", "Evaluation metrics", "Datasets & Models"])  
+    tab_1, tab_2, tab_3 = st.tabs(["Overview", "Evaluation metrics", "Datasets & Models"])  
 
     with tab_1:
         background = Image.open('./data/replacement.png')
