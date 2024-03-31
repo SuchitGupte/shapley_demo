@@ -549,8 +549,8 @@ with tab_desc:
     """
     ## Contributors
 
-    * [Suchit Gupte](https://github.com/SuchitGupte) (Ohio State University)
-    * [John Paparrizos](https://www.paparrizos.org/) (Ohio State University)
+    * [Suchit Gupte](https://github.com/SuchitGupte) (The Ohio State University)
+    * [John Paparrizos](https://www.paparrizos.org/) (The Ohio State University)
     """
     )
 
