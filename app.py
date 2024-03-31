@@ -516,7 +516,7 @@ with tab_desc:
     We generate these explanations using the most accurate Shapley value approximation technique, which we have inferred from our comprehensive evaluation. 
     """
     )
-    st.image('descriptionImg.jpg', caption='Overview of ShapX Engine')
+    st.image('desc.jpg', caption='Overview of ShapX Engine')
     # st.image('descv2.jpg', caption='Overview of ShapX Engine')
     # st.markdown(
     # """
