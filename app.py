@@ -618,7 +618,7 @@ with tab_framework:
         Consequently, we must employ an alternative evaluation metric to assess the accuracy of the approaches, such as the Explanation Error. 
         The motivation for explanation error stems from the additive nature of the Shapley values. Shapley values indicate the individual contributions of input features towards shifting the model output from the average model prediction to the actual prediction value given a specific instance. 
         When dealing with a black-box model $f$ and an explicand $x$, the prediction for the explicand can be articulated as a summation of the average model
-        prediction and the individual Shapley values assigned to each feature.
+        prediction and the individual Shapley values of each feature.
 
         """
         )
