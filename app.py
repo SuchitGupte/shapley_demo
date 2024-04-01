@@ -539,7 +539,7 @@ with tab_desc:
 with tab_framework:
     st.markdown('## Benchmark details: ')
 
-    tab_1, tab_2, tab_3 = st.tabs(["Overview", "Evaluation metrics", "Datasets & Models"])  
+    tab_1, tab_2, tab_3 = st.tabs(["Overview", "Evaluation Metrics", "Datasets & Models"])  
 
     with tab_1:
         background = Image.open('./data/replacement.png')
@@ -563,28 +563,6 @@ with tab_framework:
         Following are the Shapley value estimation approaches:
         """
         )
-        # st.markdown("""
-        #     | Approaches                                | Estimation Strategy                   | Replacement Strategy                                             | Language         |
-        #     |-------------------------------------------|---------------------------------------|------------------------------------------------------------------|------------------|
-        #     | Exhaustive Sampling                       | Exact (All potential feature subsets) | Conditional Distribution: Separate Models                        |Python            |   
-        #     | Interactions-based Method for Explanation | Random Order                          | Marginal Distribution: Empirical                                 |Python            |  
-        #     | Conditional Expectations Shapley          | Random Order                          | Conditional Distribution: Empirical                              |Python            | 
-        #     | Shapley Cohort refinement                 | Random Order                          | Conditional Distribution: Empirical                              |Python            |
-        #     | Multilinear Sampling                      | Multilinear Extension                 | Marginal Distribution: Empirical                                 |Python            |    
-        #     | KernelSHAP                                | Weighted Least Squares                | Marginal Distribution: Empirical                                 |Python            |    
-        #     | Parametric KernelSHAP                     | Weighted Least Squares                | Conditional Distribution: Parametric Assumption(Gaussian/Copula) |Python/R          |    
-        #     | Non-Parametric KernelSHAP                 | Weighted Least Squares                | Conditional Distribution: Empirical                              |Python/R          |    
-        #     | SGD-Shapley                               | Weighted Least Squares                | Predetermined Baseline: Mean                                     |Python            |    
-        #     | FastSHAP                                  | Weighted Least Squares                | Conditional Distribution: Surrogate model                        |Python            |    
-        #     | Independent LinearSHAP                    | Linear                                | Marginal Distribution: Empirical                                 |Python            |    
-        #     | Correlated LinearSHAP                     | Linear                                | Conditional Distribution: Parametric Assumption(Gaussian)        |Python            |    
-        #     | Tree Interventional                       | Tree                                  | Marginal Distribution: Empirical                                 |Python            |    
-        #     | Tree Path-dependent                       | Tree                                  | Conditional Distribution: Empirical                              |Python            |    
-        #     | DeepLIFT                                  | Deep                                  | Predetermined Baseline: All-zeros                                |Python/C++        |    
-        #     | DeepSHAP                                  | Deep                                  | Marginal Distribution: Empirical                                 |Python            |    
-        #     | DASP                                      | Deep                                  | Predetermined Baseline: Mean                                     |Python            |    
-        # """
-        # )
         st.markdown("""
             | Approaches                                | Estimation strategy                   | Replacement strategy                                | 
             |-------------------------------------------|---------------------------------------|-----------------------------------------------------|
@@ -612,7 +590,7 @@ with tab_framework:
         st.markdown('### Evaluation metrics: ')
         st.markdown(
         """
-        #### 1. Explanation error:
+        #### 1. Explanation Error:
 
         As we implement replacement strategies to address missing features in Shapley value estimation, the absence of ground truth Shapley values presents a clear obstacle in the evaluation. 
         Consequently, we must employ an alternative evaluation metric to assess the accuracy of the approaches, such as the Explanation Error. 
@@ -633,7 +611,7 @@ with tab_framework:
         We can determine the quality of any approximation by measuring the discrepancy between the actual model prediction and the sum of the average model prediction$(\Phi_0)$ and the Shapley value approximations$(\Phi_is)$. 
         A smaller disparity signifies a higher level of accuracy in the approximation.
 
-        #### 2. Compute time:
+        #### 2. Compute Time:
 
         Since Shapley values are a local feature attribution technique, we compare the instance-wise computational efficiency of different approaches. 
         The evaluation encompasses datasets that contain up to 45 features. Using the per-instance runtime comparison, we anticipate the trend of the runtime results as the dimensionality increases. 
