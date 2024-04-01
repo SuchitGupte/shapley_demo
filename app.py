@@ -517,33 +517,10 @@ with tab_desc:
     """
     )
     st.image('desc.jpg', caption='Overview of ShapX Engine')
-    # st.image('descv2.jpg', caption='Overview of ShapX Engine')
-    # st.markdown(
-    # """
-    # ## Datasets
-
-    # For the scope of the study, we focus on regression-based tabular datasets. We utilize a total of 100 publicly available datasets from the UCI Machine Learning Repository.
-    # Within the datasets, there are as many as 60 input features, and the number of instances ranges from 100 to 1 million.
-    # The figure below illustrates the statistical characteristics of the 100 datasets, explicitly focusing on their dimensions and scale. 
-    # Since the Shapley values are a local feature attribution technique, the number of instances in the dataset has a very insignificant impact on generating explanations. 
-    # However, the data's dimensionality significantly influences the estimation of Shapley values
-    # """
-    # )
-    
-    # background = Image.open('./data/datadimscale.png')
-    # col1, col2, col3 = st.columns([0.25, 5, 0.25])
-    # col2.image(background, caption=' Dimensionality and scalability distribution across 100 regression datasets from the UCI ML repository.')
-    # st.markdown(
-    # """
-    # To ease reproducibility, we share our results over an established benchmark. Download all the datasets [here](https://github.com/TheDatumOrg/ShapleyValuesEval/tree/main/data).
-
-    # ## Models
-                
-    # We broadly classify the supervised machine learning models used to tackle regression-based problems into 5 categories - Linear models, Ensemble Learning, Gradient Boosting, Neural Networks, and Support Vector Machines. 
-    # To conduct a thorough evaluation, we integrate models representing each category. Shapley values intend to explain a black box model by leveraging the model itself, thereby negating the significance of the model's fit quality. 
-    # Consequently, this allows us to use vanilla versions of each model with default hyperparameters.
-    # """
-    # )
+    st.markdown("""
+    ## User manual
+    """)
+    st.image('frames.jpg', caption='Frames of the ShapX Engine')
     
     st.markdown(
     """
