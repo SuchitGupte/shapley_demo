@@ -523,9 +523,9 @@ with tab_desc:
     st.image('frames.jpg', caption='Frames of the ShapX Engine')
     st.markdown("""
     * Frame (a): An introductory gateway to Shapley value explanations.
-    * Frame (b): A comprehensive evaluation of the accuracy of the various facets of Shapley value estimation. 
-    * Frame (c): A thorough assessment of compute time, offering per-instance comparisons and evaluating the scalability of different approximation methods
-    * Frame (d): An interactive element to the demonstration, allowing users to upload their own datasets and models, thereby facilitating personalized explanations for individual instances.
+    * Frame (b): An extensive evaluation of the accuracy of different aspects of Shapley value estimation. 
+    * Frame (c): A per-instance performance comparison and scalability of various approximations.
+    * Frame (d): A dynamic interface for users to upload their own datasets and models and receive personalized explanations for individual instances.
     """)
     st.markdown(
     """
