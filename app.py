@@ -615,9 +615,10 @@ with tab_framework:
         #### 1. Explanation error:
 
         As we implement replacement strategies to address missing features in Shapley value estimation, the absence of ground truth Shapley values presents a clear obstacle in the evaluation. 
-        Consequently, we must employ an alternative evaluation metric to assess the accuracy of the approaches, such as the explanation error. 
+        Consequently, we must employ an alternative evaluation metric to assess the accuracy of the approaches, such as the Explanation Error. 
         The motivation for explanation error stems from the additive nature of the Shapley values. Shapley values indicate the individual contributions of input features towards shifting the model output from the average model prediction to the actual prediction value given a specific instance. 
-        When dealing with a black-box model $f$ and an explicand $x^e$, the prediction for the explicand can be articulated as follows:
+        When dealing with a black-box model $f$ and an explicand $x$, the prediction for the explicand can be articulated as a summation of the average model
+        prediction and the individual Shapley values assigned to each feature.
 
         """
         )
@@ -625,13 +626,9 @@ with tab_framework:
         col1, col2, col3 = st.columns([0.25, 5, 0.25])
         col2.image(background, caption='Additive property of Shapley values: Motivation for Explanation Error.')
 
-        # with col2:
-        #     # st.markdown("$f(x^e) = \Phi_0 + \sum_{i=1}^{|D|} \Phi_i$")
-        #     st.image('experror.jpg', caption='Additive property of Shapley values: Motivation for Explanation Error')
-
         st.markdown(
         """
-        In the above equation, $\Phi_0$ symbolizes the average model prediction, while $\Phi_i$s refer to the Shapley values assigned to each input feature. 
+        In the above figure, $\Phi_0$ symbolizes the average model prediction, while $\Phi_i$s refer to the Shapley values assigned to each input feature. 
         The objective of any Shapley value estimation technique is to approximate these $\Phi_i$s. 
         We can determine the quality of any approximation by measuring the discrepancy between the actual model prediction and the sum of the average model prediction$(\Phi_0)$ and the Shapley value approximations$(\Phi_is)$. 
         A smaller disparity signifies a higher level of accuracy in the approximation.
