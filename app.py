@@ -621,11 +621,13 @@ with tab_framework:
 
         """
         )
-        col1, col2, col3 = st.columns(3)
+        background = Image.open('experror.jpg')
+        col1, col2, col3 = st.columns([0.25, 5, 0.25])
+        col2.image(background, caption='Additive property of Shapley values: Motivation for Explanation Error.')
 
-        with col2:
-            # st.markdown("$f(x^e) = \Phi_0 + \sum_{i=1}^{|D|} \Phi_i$")
-            st.image('experror.jpg', caption='Additive property of Shapley values: Motivation for Explanation Error')
+        # with col2:
+        #     # st.markdown("$f(x^e) = \Phi_0 + \sum_{i=1}^{|D|} \Phi_i$")
+        #     st.image('experror.jpg', caption='Additive property of Shapley values: Motivation for Explanation Error')
 
         st.markdown(
         """
