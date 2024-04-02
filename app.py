@@ -496,7 +496,7 @@ def dataframe_with_selections(df):
 with st.container():
     st.image('title.jpg')
     # st.title("⚙️🔩 Shapex Engine")
-tab_desc, tab_framework, tab_acc, tab_time, tab_diy = st.tabs(["Description", "Benchmark", "Accuracy Evaluation", "Compute Time Evaluation", "Interactive Explanations"])  
+tab_desc, tab_framework, tab_acc, tab_time, tab_diy = st.tabs(["Description", "Benchmark Details", "Accuracy Evaluation", "Compute Time", "Interactive Explanations"])  
 
 with tab_desc:
     # col1, col2, col3 = st.columns([0.25, 5, 0.25])
@@ -537,7 +537,7 @@ with tab_desc:
     )
 
 with tab_framework:
-    st.markdown('## Benchmark details: ')
+    st.markdown('## Benchmark Details: ')
 
     tab_1, tab_2, tab_3 = st.tabs(["Overview", "Evaluation Metrics", "Datasets & Models"])  
 
