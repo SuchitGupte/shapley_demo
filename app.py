@@ -501,7 +501,7 @@ tab_desc, tab_framework, tab_acc, tab_time, tab_diy = st.tabs(["Description", "B
 with tab_desc:
     # col1, col2, col3 = st.columns([0.25, 5, 0.25])
     # with col2:
-    st.markdown('## Shapley value approximations')
+    st.markdown('## Shapley value explanations')
     st.markdown(
     """
     Interpreting decisions made by machine learning models helps build trust in their predictions, ultimately facilitating their practical application. Shapley values have emerged as a popular and theoretically robust method for interpreting models by quantifying the contribution of each feature toward individual predictions. The inherent complexity associated with the computation of Shapley values as an NP-hard problem has driven the development of numerous approximation techniques, leading to a plethora of options in academic literature. This abundance of choices has created a substantial gap in determining the most appropriate approach for practical applications. To address this gap, we propose ShapX, a web engine that comprehensively evaluates 16 approximation methods across 100 datasets and six different models. ShapX facilitates an interactive exploration of the strengths and limitations of various Shapley value approximations by guiding users through the suitable selections of replacement and tractable estimation strategies. Ultimately, our study reveals that strategies competent at capturing all the feature interactions lead to accurate estimations of Shapley values. ShapX also allows users to effortlessly upload their own dataset along with the corresponding machine learning model, enabling them to obtain detailed individualized explanations.
