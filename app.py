@@ -1117,7 +1117,7 @@ with tab_time:
             new_df = {}
             for repl_i in repl_list_family_time:
                 st.markdown(repl_i)
-                avg_for_i = filtered_data[filtered_data['Replacement Strategy']==repl_i]
+                avg_for_i = filtered_data[filtered_data['Replacement Strategy']==repl_i]['Time'].mean()
                 new_df[repl_i] = avg_for_i
             st.markdown(new_df)
                 
