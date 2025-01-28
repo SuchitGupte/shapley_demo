@@ -1130,8 +1130,8 @@ with tab_time:
             # st.markdown(filtered_data['Replacement Strategy'].dtype) 
 
             bar_chart = alt.Chart(new_df).mark_bar().encode(
-                x=alt.X("Value:Q", title="Value"),
-                y=alt.Y("Category:N", sort="-x", title="Category"),
+                x=alt.X("Time:Q", title="Value"),
+                y=alt.Y("Replacement Strategy:N", sort="-x", title="Category"),
                 color=alt.Color("Category:N", legend=None)
             ).properties(
                 title="Horizontal Bar Chart",
