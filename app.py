@@ -1130,13 +1130,17 @@ with tab_time:
             # st.markdown(filtered_data['Replacement Strategy'].dtype) 
 
             bar_chart = alt.Chart(new_df).mark_bar().encode(
-                x=alt.X("Time:Q", scale=alt.Scale(type="log", domain=[1e-3, new_df["Time"].max()])),
-                y=alt.Y("Replacement Strategy:N", sort="y"),
+                x=alt.X("Replacement Strategy:N"),
+                y=alt.Y("Time:Q",  scale=alt.Scale(type='log')),
                 color=alt.Color("Replacement Strategy:N", scale=alt.Scale(scheme='magma'))
             ).properties(
                 width=600,
                 height=400
-            )
+            ).configure_axis(
+                labelFontSize=14,  # Adjust label font size
+                titleFontSize=18,  # Adjust title font size
+                tickSize=14  # Adjust tick size
+            ).interactive()
             
             # Display the chart in Streamlit
             st.markdown('#### Overall comparison: ')
