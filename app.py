@@ -1112,22 +1112,11 @@ with tab_time:
                 print("Not implemented")
 
             # Not working
-            import streamlit as st
             import plotly.express as px
-            import pandas as pd
-            
-            # # Example DataFrame
-            # data = {
-            #     "Replacement Strategy": ["A", "B", "C", "D"],
-            #     "Time": [0.1, 1, 10, 100]
-            # }
-            # time_df = pd.DataFrame(data)
-            
-            # # Filtered list
-            # repl_list_family_time = ["A", "B", "C"]
             
             # Filter the DataFrame
             filtered_df = time_df[time_df['Replacement Strategy'].isin(repl_list_family_time)]
+            st.markdown('#### Overall comparison: ')
             
             # Create a bar chart using Plotly
             fig = px.bar(
@@ -1157,36 +1146,36 @@ with tab_time:
             # Display the chart in Streamlit
             st.plotly_chart(fig, use_container_width=True)
 
-            # st.markdown(st.__version__)
-            filtered_data = time_df[time_df['Replacement Strategy'].isin(repl_list_family_time)]
-            values_for_repl = []
-            for repl_i in repl_list_family_time:
-                st.markdown(repl_i)
-                avg_for_i = filtered_data[filtered_data['Replacement Strategy']==repl_i]['Time'].mean() + 1e-3
-                values_for_repl.append(avg_for_i)
-            new_df = pd.DataFrame({
-                'Replacement Strategy': repl_list_family_time,
-                'Time': values_for_repl
-            }, index=None)
-            st.markdown(new_df)
+            # # st.markdown(st.__version__)
+            # filtered_data = time_df[time_df['Replacement Strategy'].isin(repl_list_family_time)]
+            # values_for_repl = []
+            # for repl_i in repl_list_family_time:
+            #     st.markdown(repl_i)
+            #     avg_for_i = filtered_data[filtered_data['Replacement Strategy']==repl_i]['Time'].mean() + 1e-3
+            #     values_for_repl.append(avg_for_i)
+            # new_df = pd.DataFrame({
+            #     'Replacement Strategy': repl_list_family_time,
+            #     'Time': values_for_repl
+            # }, index=None)
+            # st.markdown(new_df)
 
             
-            # Display the chart in Streamlit
-            st.markdown('#### Overall comparison: ')
-            bar_chart = alt.Chart(time_df[time_df['Replacement Strategy'].isin(repl_list_family_time)]).mark_line().encode(
-                x=alt.X("Time:Q", scale=alt.Scale(type='log')),
-                y=alt.Y("Replacement Strategy:N", sort="y",  axis=alt.Axis(labelAngle=0, labelLimit=200)),
-                color=alt.Color("Replacement Strategy:N", scale=alt.Scale(scheme='magma'))
-            ).properties(
-                width=600,
-                height=400
-            ).configure_axis(
-                labelFontSize=14,  # Adjust label font size
-                titleFontSize=18,  # Adjust title font size
-                tickSize=14  # Adjust tick size
-            )
+            # # Display the chart in Streamlit
+            # st.markdown('#### Overall comparison: ')
+            # bar_chart = alt.Chart(time_df[time_df['Replacement Strategy'].isin(repl_list_family_time)]).mark_line().encode(
+            #     x=alt.X("Time:Q", scale=alt.Scale(type='log')),
+            #     y=alt.Y("Replacement Strategy:N", sort="y",  axis=alt.Axis(labelAngle=0, labelLimit=200)),
+            #     color=alt.Color("Replacement Strategy:N", scale=alt.Scale(scheme='magma'))
+            # ).properties(
+            #     width=600,
+            #     height=400
+            # ).configure_axis(
+            #     labelFontSize=14,  # Adjust label font size
+            #     titleFontSize=18,  # Adjust title font size
+            #     tickSize=14  # Adjust tick size
+            # )
         
-            st.altair_chart(bar_chart, use_container_width=True)
+            # st.altair_chart(bar_chart, use_container_width=True)
 
             
             line_chart = alt.Chart(time_df2[time_df2['Replacement Strategy'].isin(repl_list_family_time)]).mark_line().encode(
@@ -1407,21 +1396,53 @@ with tab_time:
         
         col1, col2, col3 = st.columns([0.05, 2, 0.05])
         with col2:
+            # st.markdown('#### Overall comparison: ')
+            # Filter the DataFrame
+            filtered_df = time_df[time_df['Approximation'].isin(app_list_family_time)]
             st.markdown('#### Overall comparison: ')
-            bar_chart = alt.Chart(time_df[time_df['Approximation'].isin(app_list_family_time)]).mark_bar().encode(
-                x=alt.X("Time:Q", scale=alt.Scale(type='log')),
-                y=alt.Y("Approximation:N", sort="y",  axis=alt.Axis(labelAngle=0, labelLimit=200)),
-                color=alt.Color("Approximation:N", scale=alt.Scale(scheme='magma'))
-            ).properties(
-                width=600,
-                height=400
-            ).configure_axis(
-                labelFontSize=14,  # Adjust label font size
-                titleFontSize=18,  # Adjust title font size
-                tickSize=14  # Adjust tick size
+            
+            # Create a bar chart using Plotly
+            fig = px.bar(
+                filtered_df,
+                x="Time",
+                y="Approximationy",
+                color="Approximation",
+                color_discrete_sequence=px.colors.sequential.Magma,  # Mimic magma color scheme
+                orientation="h"  # Horizontal bar chart
             )
+            
+            # Customize chart properties
+            fig.update_layout(
+                width=600,
+                height=400,
+                xaxis=dict(
+                    type="log",  # Logarithmic scale for x-axis
+                    title=dict(font=dict(size=18)),  # Adjust x-axis title font size
+                    tickfont=dict(size=14)  # Adjust x-axis tick font size
+                ),
+                yaxis=dict(
+                    title=dict(font=dict(size=18)),  # Adjust y-axis title font size
+                    tickfont=dict(size=14)  # Adjust y-axis tick font size
+                )
+            )
+            
+            # Display the chart in Streamlit
+            st.plotly_chart(fig, use_container_width=True)
+            
+            # bar_chart = alt.Chart(time_df[time_df['Approximation'].isin(app_list_family_time)]).mark_bar().encode(
+            #     x=alt.X("Time:Q", scale=alt.Scale(type='log')),
+            #     y=alt.Y("Approximation:N", sort="y",  axis=alt.Axis(labelAngle=0, labelLimit=200)),
+            #     color=alt.Color("Approximation:N", scale=alt.Scale(scheme='magma'))
+            # ).properties(
+            #     width=600,
+            #     height=400
+            # ).configure_axis(
+            #     labelFontSize=14,  # Adjust label font size
+            #     titleFontSize=18,  # Adjust title font size
+            #     tickSize=14  # Adjust tick size
+            # )
         
-            st.altair_chart(bar_chart, use_container_width=True)
+            # st.altair_chart(bar_chart, use_container_width=True)
 
             dim_df = pd.read_csv("data/tables/time_approaches.csv")
 
