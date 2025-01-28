@@ -1130,8 +1130,8 @@ with tab_time:
             st.markdown('#### Overall comparison: ')
             bar_chart = alt.Chart(time_df[time_df['Replacement Strategy'].isin(repl_list_family_time)]).mark_bar().encode(
                 x=alt.X("Time:Q", scale=alt.Scale(type='log')),
-                y=alt.Y("Approximation:N", sort="y",  axis=alt.Axis(labelAngle=0, labelLimit=200)),
-                color=alt.Color("Approximation:N", scale=alt.Scale(scheme='magma'))
+                y=alt.Y("Replacement Strategy:N", sort="y",  axis=alt.Axis(labelAngle=0, labelLimit=200)),
+                color=alt.Color("Replacement Strategy:N", scale=alt.Scale(scheme='magma'))
             ).properties(
                 width=600,
                 height=400
