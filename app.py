@@ -1112,11 +1112,18 @@ with tab_time:
                 print("Not implemented")
 
             # Not working
-            st.markdown(st.__version__)
+            # st.markdown(st.__version__)
             filtered_data = time_df[time_df['Replacement Strategy'].isin(repl_list_family_time)]
-            st.markdown(filtered_data.columns) 
-            st.markdown(filtered_data['Time'].dtype) 
-            st.markdown(filtered_data['Replacement Strategy'].dtype) 
+            new_df = {}
+            for repl_i in repl_list_family_time:
+                st.markdown(repl_i)
+                avg_for_i = filtered_data[filtered_data['Replacement Strategy']==repl_i]
+                new_df[repl_i] = avg_for_i
+            st.markdown(new_df)
+                
+            # st.markdown(filtered_data.columns) 
+            # st.markdown(filtered_data['Time'].dtype) 
+            # st.markdown(filtered_data['Replacement Strategy'].dtype) 
 
             bar_chart = alt.Chart(filtered_data).mark_bar().encode(
                 x=alt.X("Time:Q", scale=alt.Scale(type='log')),
