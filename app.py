@@ -1119,7 +1119,7 @@ with tab_time:
             st.markdown(filtered_data['Replacement Strategy'].dtype) 
 
             bar_chart = alt.Chart(filtered_data).mark_bar().encode(
-                x=alt.X("Time:Q").scale(type="log"),
+                x=alt.X("Time:Q", scale=alt.Scale(type="log")),
                 y=alt.Y("Replacement Strategy:N", sort="y",  axis=alt.Axis(labelAngle=0, labelLimit=200)),
                 color=alt.Color("Replacement Strategy:N", scale=alt.Scale(scheme='magma'))
             ).properties(
