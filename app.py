@@ -1405,7 +1405,7 @@ with tab_time:
             fig = px.bar(
                 filtered_df,
                 x="Time",
-                y="Approximationy",
+                y="Approximation",
                 color="Approximation",
                 color_discrete_sequence=px.colors.sequential.Magma,  # Mimic magma color scheme
                 orientation="h"  # Horizontal bar chart
