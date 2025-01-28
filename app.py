@@ -1122,7 +1122,7 @@ with tab_time:
             new_df = pd.DataFrame({
                 'Replacement Strategy': repl_list_family_time,
                 'Time': values_for_repl
-            })
+            }, index=None)
             st.markdown(new_df)
                 
             # st.markdown(filtered_data.columns) 
