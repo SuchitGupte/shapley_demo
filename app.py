@@ -1112,6 +1112,25 @@ with tab_time:
                 print("Not implemented")
 
             # Not working
+            data = {
+            "Category": ["A", "B", "C", "D"],
+            "Value": [10, 20, 30, 40]
+            }
+            df = pd.DataFrame(data)
+            
+            # Create horizontal bar chart using Altair
+            bar_chart = alt.Chart(df).mark_bar().encode(
+            x=alt.X("Value:Q", title="Value"),
+            y=alt.Y("Category:N", sort="-x", title="Category"),
+            color=alt.Color("Category:N", legend=None)
+            ).properties(
+            title="Horizontal Bar Chart",
+            width=600,
+            height=400
+            )
+            
+            # Display the chart in Streamlit
+            st.altair_chart(bar_chart, use_container_width=True)
             st.markdown(st.__version__)
             bar_chart = alt.Chart(time_df[time_df['Replacement Strategy'].isin(repl_list_family_time)]).mark_bar().encode(
                 x=alt.X("Time:Q", scale=alt.Scale(type='log')),
