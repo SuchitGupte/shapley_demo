@@ -1119,15 +1119,28 @@ with tab_time:
                 st.markdown(repl_i)
                 avg_for_i = filtered_data[filtered_data['Replacement Strategy']==repl_i]['Time'].mean()
                 values_for_repl.append(avg_for_i)
-            new_df = {
+            new_df = pd.DataFrame({
                 'Replacement Strategy': repl_list_family_time,
                 'Time': values_for_repl
-            }
+            })
             st.markdown(new_df)
                 
             # st.markdown(filtered_data.columns) 
             # st.markdown(filtered_data['Time'].dtype) 
             # st.markdown(filtered_data['Replacement Strategy'].dtype) 
+
+            bar_chart = alt.Chart(new_df).mark_bar().encode(
+                x=alt.X("Value:Q", title="Value"),
+                y=alt.Y("Category:N", sort="-x", title="Category"),
+                color=alt.Color("Category:N", legend=None)
+            ).properties(
+                title="Horizontal Bar Chart",
+                width=600,
+                height=400
+            )
+            
+            # Display the chart in Streamlit
+            st.altair_chart(bar_chart, use_container_width=True)
 
             bar_chart = alt.Chart(new_df).mark_bar().encode(
                 x=alt.X("Time:Q", scale=alt.Scale(type='log')),
