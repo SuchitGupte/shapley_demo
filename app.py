@@ -1116,6 +1116,7 @@ with tab_time:
             
             # Filter the DataFrame
             filtered_df = time_df[time_df['Replacement Strategy'].isin(repl_list_family_time)]
+            filtered_df = filtered_df.sort_values(by="Replacement Strategy", ascending=True)
             st.markdown('#### Overall comparison: ')
             
             # Create a bar chart using Plotly
@@ -1400,7 +1401,7 @@ with tab_time:
             # Filter the DataFrame
             filtered_df = time_df[time_df['Approximation'].isin(app_list_family_time)]
             st.markdown('#### Overall comparison: ')
-            
+            filtered_df = filtered_df.sort_values(by="Approximation", ascending=True)
             # Create a bar chart using Plotly
             fig = px.bar(
                 filtered_df,
