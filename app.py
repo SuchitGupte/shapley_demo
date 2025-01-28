@@ -1117,7 +1117,7 @@ with tab_time:
             values_for_repl = []
             for repl_i in repl_list_family_time:
                 st.markdown(repl_i)
-                avg_for_i = np.abs(np.log(filtered_data[filtered_data['Replacement Strategy']==repl_i]['Time'].mean()))
+                avg_for_i = filtered_data[filtered_data['Replacement Strategy']==repl_i]['Time'].mean()
                 values_for_repl.append(avg_for_i)
             new_df = pd.DataFrame({
                 'Replacement Strategy': repl_list_family_time,
