@@ -1115,23 +1115,41 @@ with tab_time:
             import plotly.express as px
             import pandas as pd
             
-            # Example DataFrame
+            # Example DataFrame (replace with your `time_df` data)
             data = {
-                "Category": ["A", "B", "C", "D"],
-                "Values": [10, 20, 30, 40]
+                "Time": [0.1, 1, 10, 100],
+                "Replacement Strategy": ["Strategy A", "Strategy B", "Strategy C", "Strategy D"],
+                "Value": [20, 30, 15, 25]
             }
-            df = pd.DataFrame(data)
+            time_df = pd.DataFrame(data)
             
-            # Create a bar chart using Plotly Express
-            fig = px.bar(
-                df,
-                x="Category",
-                y="Values",
-                title="Bar Chart Example",
-                labels={"Values": "Value", "Category": "Category"},
+            # Filter the DataFrame similar to Altair
+            repl_list_family_time = ["Strategy A", "Strategy B"]  # Example list
+            filtered_df = time_df[time_df['Replacement Strategy'].isin(repl_list_family_time)]
+            
+            # Create the line chart using Plotly
+            fig = px.line(
+                filtered_df,
+                x="Time",
+                y="Value",
+                color="Replacement Strategy",
+                title="Line Chart Example",
+                labels={"Time": "Time (log scale)", "Value": "Value", "Replacement Strategy": "Strategy"},
+                line_shape="linear",  # Mimics line connections
             )
             
-            # Display the chart in Streamlit
+            # Apply log scale to the x-axis
+            fig.update_xaxes(type="log", title_font={"size": 18}, tickfont={"size": 14})
+            fig.update_yaxes(title_font={"size": 18}, tickfont={"size": 14})
+            
+            # Customize chart size
+            fig.update_layout(
+                width=600,
+                height=400,
+                legend=dict(title_font_size=14),
+            )
+            
+            # Display in Streamlit
             st.plotly_chart(fig, use_container_width=True)
             # st.markdown(st.__version__)
             filtered_data = time_df[time_df['Replacement Strategy'].isin(repl_list_family_time)]
