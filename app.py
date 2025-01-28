@@ -1112,6 +1112,27 @@ with tab_time:
                 print("Not implemented")
 
             # Not working
+            import plotly.express as px
+            import pandas as pd
+            
+            # Example DataFrame
+            data = {
+                "Category": ["A", "B", "C", "D"],
+                "Values": [10, 20, 30, 40]
+            }
+            df = pd.DataFrame(data)
+            
+            # Create a bar chart using Plotly Express
+            fig = px.bar(
+                df,
+                x="Category",
+                y="Values",
+                title="Bar Chart Example",
+                labels={"Values": "Value", "Category": "Category"},
+            )
+            
+            # Display the chart in Streamlit
+            st.plotly_chart(fig, use_container_width=True)
             # st.markdown(st.__version__)
             filtered_data = time_df[time_df['Replacement Strategy'].isin(repl_list_family_time)]
             values_for_repl = []
