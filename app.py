@@ -1116,15 +1116,15 @@ with tab_time:
             import plotly.express as px
             import pandas as pd
             
-            # Example DataFrame
-            data = {
-                "Replacement Strategy": ["A", "B", "C", "D"],
-                "Time": [0.1, 1, 10, 100]
-            }
-            time_df = pd.DataFrame(data)
+            # # Example DataFrame
+            # data = {
+            #     "Replacement Strategy": ["A", "B", "C", "D"],
+            #     "Time": [0.1, 1, 10, 100]
+            # }
+            # time_df = pd.DataFrame(data)
             
-            # Filtered list
-            repl_list_family_time = ["A", "B", "C"]
+            # # Filtered list
+            # repl_list_family_time = ["A", "B", "C"]
             
             # Filter the DataFrame
             filtered_df = time_df[time_df['Replacement Strategy'].isin(repl_list_family_time)]
