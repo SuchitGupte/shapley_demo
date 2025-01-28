@@ -26,7 +26,7 @@ from scipy.stats import friedmanchisquare
 import networkx
 
 st.set_page_config(
-    page_title="ShapX Engine Sigmod 25",
+    page_title="ShapX Engine",
     page_icon="logo.png",
     # layout="wide",
 )
@@ -1113,6 +1113,8 @@ with tab_time:
             else:
                 print("Not implemented")
 
+            # Not working
+            st.markdown(time_df)
             bar_chart = alt.Chart(time_df[time_df['Replacement Strategy'].isin(repl_list_family_time)]).mark_bar().encode(
                 x=alt.X("Time:Q", scale=alt.Scale(type='log')),
                 y=alt.Y("Replacement Strategy:N", sort="y",  axis=alt.Axis(labelAngle=0, labelLimit=200)),
