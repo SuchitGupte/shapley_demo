@@ -1128,7 +1128,7 @@ with tab_time:
             
             # Display the chart in Streamlit
             st.markdown('#### Overall comparison: ')
-            bar_chart = alt.Chart(time_df[time_df['Replacement Strategy'].isin(repl_list_family_time)]).mark_bar().encode(
+            bar_chart = alt.Chart(time_df[time_df['Replacement Strategy'].isin(repl_list_family_time)]).mark_line().encode(
                 x=alt.X("Time:Q", scale=alt.Scale(type='log')),
                 y=alt.Y("Replacement Strategy:N", sort="y",  axis=alt.Axis(labelAngle=0, labelLimit=200)),
                 color=alt.Color("Replacement Strategy:N", scale=alt.Scale(scheme='magma'))
