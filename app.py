@@ -1112,36 +1112,14 @@ with tab_time:
                 print("Not implemented")
 
             # Not working
-            data = {
-            "Category": ["A", "B", "C", "D"],
-            "Value": [10, 20, 30, 40]
-            }
-            df = pd.DataFrame(data)
-            
-            # Create horizontal bar chart using Altair
-            bar_chart = alt.Chart(df).mark_bar().encode(
-            x=alt.X("Value:Q", title="Value"),
-            y=alt.Y("Category:N", sort="-x", title="Category"),
-            color=alt.Color("Category:N", legend=None)
-            ).properties(
-            title="Horizontal Bar Chart",
-            width=600,
-            height=400
-            )
-            
-            # Display the chart in Streamlit
-            st.altair_chart(bar_chart, use_container_width=True)
             st.markdown(st.__version__)
             filtered_data = time_df[time_df['Replacement Strategy'].isin(repl_list_family_time)]
             st.markdown(filtered_data.columns) 
             st.markdown(filtered_data['Time'].dtype) 
             st.markdown(filtered_data['Replacement Strategy'].dtype) 
 
-            filtered_data = filtered_data.dropna(subset=["Time"])  # Drop rows with NaN values
-            filtered_data = filtered_data[filtered_data["Time"] > 0]  # Ensure Time is positive for log scale
-
             bar_chart = alt.Chart(filtered_data).mark_bar().encode(
-                x=alt.X("Time:Q", scale=alt.Scale(type='log')),
+                x=alt.X("Time:Q"),
                 y=alt.Y("Replacement Strategy:N", sort="y",  axis=alt.Axis(labelAngle=0, labelLimit=200)),
                 color=alt.Color("Replacement Strategy:N", scale=alt.Scale(scheme='magma'))
             ).properties(
