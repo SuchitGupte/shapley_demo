@@ -1132,7 +1132,12 @@ with tab_time:
             # Display the chart in Streamlit
             st.altair_chart(bar_chart, use_container_width=True)
             st.markdown(st.__version__)
-            bar_chart = alt.Chart(time_df[time_df['Replacement Strategy'].isin(repl_list_family_time)]).mark_bar().encode(
+            filtered_data = time_df[time_df['Replacement Strategy'].isin(repl_list_family_time)]
+            st.markdown(filtered_data.columns) 
+            st.markdown(type(filtered_data['Time'])) 
+            st.markdown(type(filtered_data['Replacement Strategy'])) 
+            
+            bar_chart = alt.Chart(filtered_data).mark_bar().encode(
                 x=alt.X("Time:Q", scale=alt.Scale(type='log')),
                 y=alt.Y("Replacement Strategy:N", sort="y",  axis=alt.Axis(labelAngle=0, labelLimit=200)),
                 color=alt.Color("Replacement Strategy:N", scale=alt.Scale(scheme='magma'))
@@ -1140,7 +1145,7 @@ with tab_time:
                 width=600,
                 height=400
             ).configure_axis(
-                labelFontSize=24,  # Adjust label font size
+                labelFontSize=14,  # Adjust label font size
                 titleFontSize=18,  # Adjust title font size
                 tickSize=14  # Adjust tick size
             )
