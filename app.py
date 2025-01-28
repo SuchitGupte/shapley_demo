@@ -1112,45 +1112,51 @@ with tab_time:
                 print("Not implemented")
 
             # Not working
+            import streamlit as st
             import plotly.express as px
             import pandas as pd
             
-            # Example DataFrame (replace with your `time_df` data)
+            # Example DataFrame
             data = {
-                "Time": [0.1, 1, 10, 100],
-                "Replacement Strategy": ["Strategy A", "Strategy B", "Strategy C", "Strategy D"],
-                "Value": [20, 30, 15, 25]
+                "Replacement Strategy": ["A", "B", "C", "D"],
+                "Time": [0.1, 1, 10, 100]
             }
             time_df = pd.DataFrame(data)
             
-            # Filter the DataFrame similar to Altair
-            repl_list_family_time = ["Strategy A", "Strategy B"]  # Example list
+            # Filtered list
+            repl_list_family_time = ["A", "B", "C"]
+            
+            # Filter the DataFrame
             filtered_df = time_df[time_df['Replacement Strategy'].isin(repl_list_family_time)]
             
-            # Create the line chart using Plotly
-            fig = px.line(
+            # Create a bar chart using Plotly
+            fig = px.bar(
                 filtered_df,
                 x="Time",
-                y="Value",
+                y="Replacement Strategy",
                 color="Replacement Strategy",
-                title="Line Chart Example",
-                labels={"Time": "Time (log scale)", "Value": "Value", "Replacement Strategy": "Strategy"},
-                line_shape="linear",  # Mimics line connections
+                color_discrete_sequence=px.colors.sequential.Magma,  # Mimic magma color scheme
+                orientation="h"  # Horizontal bar chart
             )
             
-            # Apply log scale to the x-axis
-            fig.update_xaxes(type="log", title_font={"size": 18}, tickfont={"size": 14})
-            fig.update_yaxes(title_font={"size": 18}, tickfont={"size": 14})
-            
-            # Customize chart size
+            # Customize chart properties
             fig.update_layout(
                 width=600,
                 height=400,
-                legend=dict(title_font_size=14),
+                xaxis=dict(
+                    type="log",  # Logarithmic scale for x-axis
+                    title=dict(font=dict(size=18)),  # Adjust x-axis title font size
+                    tickfont=dict(size=14)  # Adjust x-axis tick font size
+                ),
+                yaxis=dict(
+                    title=dict(font=dict(size=18)),  # Adjust y-axis title font size
+                    tickfont=dict(size=14)  # Adjust y-axis tick font size
+                )
             )
             
-            # Display in Streamlit
+            # Display the chart in Streamlit
             st.plotly_chart(fig, use_container_width=True)
+
             # st.markdown(st.__version__)
             filtered_data = time_df[time_df['Replacement Strategy'].isin(repl_list_family_time)]
             values_for_repl = []
