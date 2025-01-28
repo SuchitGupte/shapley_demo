@@ -1084,8 +1084,6 @@ with tab_time:
         
         col1, col2, col3 = st.columns([0.05, 2, 0.05])
         with col2:
-            st.markdown('#### Overall comparison: ')
-
             if model == 'Model agnostic':
                 time_df = df
                 time_df2 = pd.read_csv("data/time_agn.csv")
@@ -1114,24 +1112,22 @@ with tab_time:
                 print("Not implemented")
 
             # Not working
-            try:
-                bar_chart = alt.Chart(time_df[time_df['Replacement Strategy'].isin(repl_list_family_time)]).mark_bar().encode(
-                    x=alt.X("Time:Q", scale=alt.Scale(type='log')),
-                    y=alt.Y("Replacement Strategy:N", sort="y",  axis=alt.Axis(labelAngle=0, labelLimit=200)),
-                    color=alt.Color("Replacement Strategy:N", scale=alt.Scale(scheme='magma')),
-                    tooltip=["Replacement Strategy:N", "Time:Q"]
-                ).properties(
-                    width=600,
-                    height=400
-                ).configure_axis(
-                    labelFontSize=14,  # Adjust label font size
-                    titleFontSize=18,  # Adjust title font size
-                    tickSize=14  # Adjust tick size
-                )
-            
-                st.altair_chart(bar_chart, use_container_width=False)
-            except Exception as e:
-                st.error(f"Error creating the chart: {e}")
+
+            bar_chart = alt.Chart(time_df[time_df['Replacement Strategy'].isin(repl_list_family_time)]).mark_bar().encode(
+                x=alt.X("Time:Q", scale=alt.Scale(type='log')),
+                y=alt.Y("Replacement Strategy:N", sort="y",  axis=alt.Axis(labelAngle=0, labelLimit=200)),
+                color=alt.Color("Replacement Strategy:N", scale=alt.Scale(scheme='magma'))
+            ).properties(
+                width=600,
+                height=400
+            ).configure_axis(
+                labelFontSize=24,  # Adjust label font size
+                titleFontSize=18,  # Adjust title font size
+                tickSize=14  # Adjust tick size
+            )
+
+            st.markdown('#### Overall comparison: ')
+            st.altair_chart(bar_chart, use_container_width=True)
 
             
             line_chart = alt.Chart(time_df2[time_df2['Replacement Strategy'].isin(repl_list_family_time)]).mark_line().encode(
