@@ -26,7 +26,7 @@ from scipy.stats import friedmanchisquare
 import networkx
 
 st.set_page_config(
-    page_title="ShapX Engine",
+    page_title="ShapX Engine Sigmod 25",
     page_icon="logo.png",
     # layout="wide",
 )
