@@ -1114,18 +1114,22 @@ with tab_time:
             # Not working
             # st.markdown(st.__version__)
             filtered_data = time_df[time_df['Replacement Strategy'].isin(repl_list_family_time)]
-            new_df = {}
+            values_for_repl = []
             for repl_i in repl_list_family_time:
                 st.markdown(repl_i)
                 avg_for_i = filtered_data[filtered_data['Replacement Strategy']==repl_i]['Time'].mean()
-                new_df[repl_i] = avg_for_i
+                values_for_repl.append(avg_for_i)
+            new_df = {
+                'Replacement Strategy': repl_list_family_time,
+                'Time': values_for_repl
+            }
             st.markdown(new_df)
                 
             # st.markdown(filtered_data.columns) 
             # st.markdown(filtered_data['Time'].dtype) 
             # st.markdown(filtered_data['Replacement Strategy'].dtype) 
 
-            bar_chart = alt.Chart(filtered_data).mark_bar().encode(
+            bar_chart = alt.Chart(new_df).mark_bar().encode(
                 x=alt.X("Time:Q", scale=alt.Scale(type='log')),
                 y=alt.Y("Replacement Strategy:N", sort="y",  axis=alt.Axis(labelAngle=0, labelLimit=200)),
                 color=alt.Color("Replacement Strategy:N", scale=alt.Scale(scheme='magma'))
