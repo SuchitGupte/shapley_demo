@@ -1117,7 +1117,7 @@ with tab_time:
             values_for_repl = []
             for repl_i in repl_list_family_time:
                 st.markdown(repl_i)
-                avg_for_i = np.log(filtered_data[filtered_data['Replacement Strategy']==repl_i]['Time'].mean())
+                avg_for_i = np.abs(np.log(filtered_data[filtered_data['Replacement Strategy']==repl_i]['Time'].mean()))
                 values_for_repl.append(avg_for_i)
             new_df = pd.DataFrame({
                 'Replacement Strategy': repl_list_family_time,
@@ -1139,21 +1139,6 @@ with tab_time:
             )
             
             # Display the chart in Streamlit
-            st.altair_chart(bar_chart, use_container_width=True)
-
-            bar_chart = alt.Chart(new_df).mark_bar().encode(
-                x=alt.X("Time:Q", scale=alt.Scale(type='log')),
-                y=alt.Y("Replacement Strategy:N", sort="y",  axis=alt.Axis(labelAngle=0, labelLimit=200)),
-                color=alt.Color("Replacement Strategy:N", scale=alt.Scale(scheme='magma'))
-            ).properties(
-                width=600,
-                height=400
-            ).configure_axis(
-                labelFontSize=14,  # Adjust label font size
-                titleFontSize=18,  # Adjust title font size
-                tickSize=14  # Adjust tick size
-            )
-
             st.markdown('#### Overall comparison: ')
             st.altair_chart(bar_chart, use_container_width=True)
 
