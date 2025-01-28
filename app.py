@@ -1112,7 +1112,7 @@ with tab_time:
                 print("Not implemented")
 
             # Not working
-
+            st.markdown(st.__version__)
             bar_chart = alt.Chart(time_df[time_df['Replacement Strategy'].isin(repl_list_family_time)]).mark_bar().encode(
                 x=alt.X("Time:Q", scale=alt.Scale(type='log')),
                 y=alt.Y("Replacement Strategy:N", sort="y",  axis=alt.Axis(labelAngle=0, labelLimit=200)),
