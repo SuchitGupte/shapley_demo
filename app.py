@@ -1130,8 +1130,8 @@ with tab_time:
             # st.markdown(filtered_data['Replacement Strategy'].dtype) 
 
             bar_chart = alt.Chart(new_df).mark_bar().encode(
-                x=alt.X("Time:Q", scale=alt.Scale(type='log')),
-                y=alt.Y("Replacement Strategy:N", sort="-x", title="Replacement Strategy"),
+                x=alt.X("Time:Q"),
+                y=alt.Y("Replacement Strategy:N", sort="y"),
                 color=alt.Color("Replacement Strategy:N", scale=alt.Scale(scheme='magma'))
             ).properties(
                 width=600,
