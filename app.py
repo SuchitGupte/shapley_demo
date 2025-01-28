@@ -1124,15 +1124,14 @@ with tab_time:
                 'Time': values_for_repl
             }, index=None)
             st.markdown(new_df)
-                
-            # st.markdown(filtered_data.columns) 
-            # st.markdown(filtered_data['Time'].dtype) 
-            # st.markdown(filtered_data['Replacement Strategy'].dtype) 
 
-            bar_chart = alt.Chart(new_df).mark_bar().encode(
-                x=alt.X("Replacement Strategy:N"),
-                y=alt.Y("Time:Q",  scale=alt.Scale(type='log')),
-                color=alt.Color("Replacement Strategy:N", scale=alt.Scale(scheme='magma'))
+            
+            # Display the chart in Streamlit
+            st.markdown('#### Overall comparison: ')
+            bar_chart = alt.Chart(time_df[time_df['Replacement Strategy'].isin(repl_list_family_time)]).mark_bar().encode(
+                x=alt.X("Time:Q", scale=alt.Scale(type='log')),
+                y=alt.Y("Approximation:N", sort="y",  axis=alt.Axis(labelAngle=0, labelLimit=200)),
+                color=alt.Color("Approximation:N", scale=alt.Scale(scheme='magma'))
             ).properties(
                 width=600,
                 height=400
@@ -1140,10 +1139,8 @@ with tab_time:
                 labelFontSize=14,  # Adjust label font size
                 titleFontSize=18,  # Adjust title font size
                 tickSize=14  # Adjust tick size
-            ).interactive()
-            
-            # Display the chart in Streamlit
-            st.markdown('#### Overall comparison: ')
+            )
+        
             st.altair_chart(bar_chart, use_container_width=True)
 
             
