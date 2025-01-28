@@ -1134,9 +1134,12 @@ with tab_time:
             st.markdown(st.__version__)
             filtered_data = time_df[time_df['Replacement Strategy'].isin(repl_list_family_time)]
             st.markdown(filtered_data.columns) 
-            st.markdown(type(filtered_data['Time'])) 
-            st.markdown(type(filtered_data['Replacement Strategy'])) 
-            
+            st.markdown(filtered_data['Time'].dtype) 
+            st.markdown(filtered_data['Replacement Strategy'].dtype) 
+
+            filtered_data = filtered_data.dropna(subset=["Time"])  # Drop rows with NaN values
+            filtered_data = filtered_data[filtered_data["Time"] > 0]  # Ensure Time is positive for log scale
+
             bar_chart = alt.Chart(filtered_data).mark_bar().encode(
                 x=alt.X("Time:Q", scale=alt.Scale(type='log')),
                 y=alt.Y("Replacement Strategy:N", sort="y",  axis=alt.Axis(labelAngle=0, labelLimit=200)),
