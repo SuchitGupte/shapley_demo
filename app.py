@@ -504,7 +504,7 @@ with tab_desc:
     st.markdown('## Shapley value explanations')
     st.markdown(
     """
-    Interpreting decisions made by machine learning models helps build trust in their predictions, ultimately facilitating their practical application. Shapley values have emerged as a popular and theoretically robust method for interpreting models by quantifying the contribution of each feature toward individual predictions. The inherent complexity associated with the computation of Shapley values as an NP-hard problem has driven the development of numerous approximation techniques, leading to a plethora of options in literature. This abundance of choices has created a substantial gap in determining the most appropriate approach for practical applications. To address this gap, we propose ShapX, a web engine that comprehensively evaluates 17 approximation methods across 100 datasets and five different models. ShapX facilitates an interactive exploration of the strengths and limitations of various Shapley value approximations by guiding users through the suitable selections of replacement and tractable estimation strategies. Ultimately, our study reveals that strategies competent at capturing all the feature interactions lead to accurate estimations of Shapley values. ShapX also allows users to effortlessly upload their own dataset along with the corresponding machine learning model, enabling them to obtain detailed individualized explanations.
+    Interpreting decisions made by machine learning models helps build trust in their predictions, ultimately facilitating their practical application. Shapley values have emerged as a popular and theoretically robust method for interpreting models by quantifying the contribution of each feature toward individual predictions. The inherent complexity associated with the computation of Shapley values as an NP-hard problem has driven the development of numerous approximation techniques, leading to a plethora of options in literature. This abundance of choices has created a substantial gap in determining the most appropriate approach for practical applications. To address this gap, we propose ShapX, a web engine that comprehensively evaluates 17 approximation methods across diverse regression and classification tasks. ShapX facilitates an interactive exploration of the strengths and limitations of various Shapley value approximations by guiding users through the suitable selections of replacement and tractable estimation strategies. Ultimately, our study reveals that strategies competent at capturing all the feature interactions lead to accurate estimations of Shapley values. ShapX also allows users to effortlessly upload their own dataset along with the corresponding machine learning model, enabling them to obtain detailed individualized explanations.
     """
     )
     st.image('desc.jpg', caption='Overview of ShapX Engine')
@@ -537,20 +537,23 @@ with tab_framework:
         st.markdown('### Overview: ')
         st.markdown(
         """
-        We break down the approximation of Shapley values into two principal dimensions. 
+        We break down the approximation of the Shapley values into two principal dimensions. 
         These dimensions also serve as a guide for setting up the evaluation framework. 
         The first dimension involves properly treating missing values with the help of different replacement strategies. 
-        We deploy each replacement strategy against an exhaustive estimation of Shapley values.
+        We deploy each replacement strategy against an exhaustive computation of Shapley values. 
+        This evaluation measure will highlight the strengths and weaknesses of replacement strategies, 
+        aiding future research in selecting the most reliable strategy. 
         """
         )
         col1, col2, col3 = st.columns([0.25, 5, 0.25])
         col2.image(background, caption='Replacement strategies address the absence of features, eliminating the necessity to train an exponential number of models and mitigating computational complexity.')
         # with col2:
         st.markdown("""
-        The second dimension focuses on tractable estimation strategies, which are crucial for efficiently computing Shapley values. 
+        The second dimension focuses on tractable estimation strategies, which are crucial for efficiently computing Shapley values.
         We analyze the performance of these tractable estimation strategies using established approximation algorithms. 
-        We systematically evaluate 8 distinct replacement strategies and 17 distinct approximation algorithms across a diverse set of 100 datasets. 
-        This comprehensive evaluation enables us to thoroughly assess the performance and efficacy of different strategies and approximations in estimating Shapley values across varied data scenarios.
+        We systematically evaluate 8 distinct replacement strategies and 17 distinct approximation algorithms across a diverse set of 200 datasets. 
+        This comprehensive evaluation enables us to thoroughly assess the performance and efficacy of individual strategies and 
+        the various approximations in estimating Shapley values across varied data scenarios.
         Following are the Shapley value estimation approaches:
         """
         )
@@ -619,9 +622,10 @@ with tab_framework:
 
         For the scope of the study, we focus on regression-based tabular datasets. We utilize a total of 100 publicly available datasets from the UCI Machine Learning Repository.
         Within the datasets, there are as many as 60 input features, and the number of instances ranges from 100 to 1 million.
-        The figure below illustrates the statistical characteristics of the 100 datasets, explicitly focusing on their dimensions and scale. 
-        Since the Shapley values are a local feature attribution technique, the number of instances in the dataset has a very insignificant impact on generating explanations. 
-        However, the data's dimensionality significantly influences the estimation of Shapley values
+        The figure below highlights the dimensions and scale of these datasets. Each dataset is split into training and testing sets for 
+        model training and computing Shapley value estimations. Since the Shapley values are a local feature attribution technique, the number of 
+        instances in the dataset has a very insignificant impact on the Shapley value estimates; however, data dimensionality significantly affects 
+        the estimation. 
         """
         )
         
@@ -639,7 +643,7 @@ with tab_framework:
         """
         ### Models
                     
-        We broadly classify the supervised machine learning models used to tackle regression-based problems into 5 categories - Linear models, Ensemble Learning, Gradient Boosting, Neural Networks, and Support Vector Machines. 
+        We utilize the supervised machine learning framework used to tackle regression and classification tasks. We use the following model architectures - Linear models, Ensemble Learning, Gradient Boosting, Neural Networks, and Support Vector Machines. 
         To conduct a thorough evaluation, we integrate models representing each category. Shapley values intend to explain a black box model by leveraging the model itself, thereby negating the significance of the model's fit quality. 
         Consequently, this allows us to use vanilla versions of each model with default hyperparameters.
         """
