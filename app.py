@@ -629,7 +629,7 @@ with tab_framework:
         """
         )
         
-        background = Image.open('./data/datadimscale.png')
+        background = Image.open('./data/datadimscale_rev.png')
         col1, col2, col3 = st.columns([0.2, 5, 0.2])
         col2.image(background, caption=' Dimensionality and scalability distribution across 200 regression and classification datasets from the UCI ML repository.')
 
