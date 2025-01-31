@@ -620,7 +620,7 @@ with tab_framework:
 
         ### Datasets
 
-        For the scope of the study, we focus on regression-based tabular datasets. We utilize a total of 100 publicly available datasets from the UCI Machine Learning Repository.
+        For the scope of the study, we focus on regression and binary/multi-class classification tabular datasets. We utilize a total of 200 publicly available datasets from the UCI Machine Learning Repository.
         Within the datasets, there are as many as 60 input features, and the number of instances ranges from 100 to 1 million.
         The figure below highlights the dimensions and scale of these datasets. Each dataset is split into training and testing sets for 
         model training and computing Shapley value estimations. Since the Shapley values are a local feature attribution technique, the number of 
@@ -631,7 +631,7 @@ with tab_framework:
         
         background = Image.open('./data/datadimscale.png')
         col1, col2, col3 = st.columns([0.2, 5, 0.2])
-        col2.image(background, caption=' Dimensionality and scalability distribution across 100 regression datasets from the UCI ML repository.')
+        col2.image(background, caption=' Dimensionality and scalability distribution across 200 regression and classification datasets from the UCI ML repository.')
 
         st.markdown("""
         To ease reproducibility, we share our results over an established benchmark. 
