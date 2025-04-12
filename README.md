@@ -17,8 +17,6 @@ Interpreting decisions made by machine learning models helps build trust in thei
 
 • [Launch App](https://shapleyexplanations.streamlit.app/) 
 
-• [GitHub Repo](https://github.com/SuchitGupte/shapley_demo)
-
 **ShapX Engine** is a modular web interface designed to explore and evaluate various strategies for estimating Shapley values in machine learning. It offers a unified platform for benchmarking accuracy, assessing compute tradeoffs, and generating interactive model explanations for tabular data.
 
 <p align="center">
