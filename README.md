@@ -14,13 +14,8 @@ Interpreting decisions made by machine learning models helps build trust in thei
 </p>
 
 <h2 id="start"> 2. Get Started </h2>
-<!-- We introduce the novel [ShapX Engine](https://shapleyexplanations.streamlit.app/) a modular web engine crafted to enhance the exploration of the multifaceted Shapley value estimation. As demonstrated in the below figure, the engine comprises five primary frames: \textbf{(a) Description, (b) Benchmark Details, (c) Accuracy Evaluation, (d) Compute Time, and (e) Interactive Explanations}. The Description frame provides a compelling rationale for the necessity of a web engine and presents a comprehensive user guide to assist individuals in effectively navigating through the engine. The Benchmark Details provide essential details like the various approximations integrated into the engine, diverse evaluation metrics employed, and the datasets and models utilized to demonstrate the evaluation.
-<p align="center">
-<img width="1000" src="./frames.jpg"/>
-</p>
-Within the Accuracy Evaluation frame, the focus is on analyzing the performance variability across different dimensions of Shapley value estimation. This frame presents a boxplot and a critical difference diagram for comparing relative accuracy rankings to aid in visualization. Moreover, it supports the investigation of performance variability through diverse replacement and tractable estimation approaches, facilitating a more thorough exploration. In the Compute Time frame, we display the computation time of Shapley values per instance. We offer a selection of replacement and estimation strategies for detailed comparison. The results are presented through visualizations, including bar plot comparison, line plots illustrating the impact of dimensionality, and bubble plots demonstrating the tradeoff between accuracy and compute time.
-The Interactive Explanations frame helps users understand their dataset better and provides explanations for any model trained on that dataset. Users are required to upload a CSV data file and a pickle model file, followed by selecting the instance to be explained. The engine then generates Shapley values for the instance using the most effective explanation technique and produces a plot illustrating the Shapley values for each feature.  -->
-[**Launch App**](https://shapleyexplanations.streamlit.app/) • [**GitHub Repo**](https://github.com/SuchitGupte/shapley_demo)
+• [Launch App](https://shapleyexplanations.streamlit.app/) 
+• [GitHub Repo](https://github.com/SuchitGupte/shapley_demo)
 
 **ShapX Engine** is a modular web interface designed to explore and evaluate various strategies for estimating Shapley values in machine learning. It offers a unified platform for benchmarking accuracy, assessing compute tradeoffs, and generating interactive model explanations for tabular data.
 
