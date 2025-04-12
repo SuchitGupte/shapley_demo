@@ -3,7 +3,7 @@
 
 ## 📄 Contents
 1. [Overview](#overview)
-2. [Get Started](#start)
+2. [Demonstration](#start)
 3. [Evaluation](#evaluation)
    
 <h2 id="overview"> 1. Overview </h2>
@@ -14,14 +14,81 @@ Interpreting decisions made by machine learning models helps build trust in thei
 </p>
 
 <h2 id="start"> 2. Get Started </h2>
-We introduce the novel [ShapX Engine](https://shapleyexplanations.streamlit.app/) a modular web engine crafted to enhance the exploration of the multifaceted Shapley value estimation. As demonstrated in the below figure, the engine comprises five primary frames: \textbf{(a) Description, (b) Benchmark Details, (c) Accuracy Evaluation, (d) Compute Time, and (e) Interactive Explanations}. The Description frame provides a compelling rationale for the necessity of a web engine and presents a comprehensive user guide to assist individuals in effectively navigating through the engine. The Benchmark Details provide essential details like the various approximations integrated into the engine, diverse evaluation metrics employed, and the datasets and models utilized to demonstrate the evaluation.
+<!-- We introduce the novel [ShapX Engine](https://shapleyexplanations.streamlit.app/) a modular web engine crafted to enhance the exploration of the multifaceted Shapley value estimation. As demonstrated in the below figure, the engine comprises five primary frames: \textbf{(a) Description, (b) Benchmark Details, (c) Accuracy Evaluation, (d) Compute Time, and (e) Interactive Explanations}. The Description frame provides a compelling rationale for the necessity of a web engine and presents a comprehensive user guide to assist individuals in effectively navigating through the engine. The Benchmark Details provide essential details like the various approximations integrated into the engine, diverse evaluation metrics employed, and the datasets and models utilized to demonstrate the evaluation.
 <p align="center">
 <img width="1000" src="./frames.jpg"/>
 </p>
-
 Within the Accuracy Evaluation frame, the focus is on analyzing the performance variability across different dimensions of Shapley value estimation. This frame presents a boxplot and a critical difference diagram for comparing relative accuracy rankings to aid in visualization. Moreover, it supports the investigation of performance variability through diverse replacement and tractable estimation approaches, facilitating a more thorough exploration. In the Compute Time frame, we display the computation time of Shapley values per instance. We offer a selection of replacement and estimation strategies for detailed comparison. The results are presented through visualizations, including bar plot comparison, line plots illustrating the impact of dimensionality, and bubble plots demonstrating the tradeoff between accuracy and compute time.
+The Interactive Explanations frame helps users understand their dataset better and provides explanations for any model trained on that dataset. Users are required to upload a CSV data file and a pickle model file, followed by selecting the instance to be explained. The engine then generates Shapley values for the instance using the most effective explanation technique and produces a plot illustrating the Shapley values for each feature.  -->
+[**Launch App**](https://shapleyexplanations.streamlit.app/) • [**GitHub Repo**](https://github.com/SuchitGupte/shapley_demo)
 
-The Interactive Explanations frame helps users understand their dataset better and provides explanations for any model trained on that dataset. Users are required to upload a CSV data file and a pickle model file, followed by selecting the instance to be explained. The engine then generates Shapley values for the instance using the most effective explanation technique and produces a plot illustrating the Shapley values for each feature. 
+**ShapX Engine** is a modular web interface designed to explore and evaluate various strategies for estimating Shapley values in machine learning. It offers a unified platform for benchmarking accuracy, assessing compute tradeoffs, and generating interactive model explanations for tabular data.
+
+<p align="center">
+  <img src="./frames.jpg" width="1000"/>
+</p>
+
+## 🔍 Overview
+
+The engine is structured into five primary frames:
+
+---
+
+### 🧾 (a) Description
+
+- Introduces the motivation behind building a web-based explanation tool.
+- Provides a comprehensive user guide to help users navigate the interface.
+
+---
+
+### 📊 (b) Benchmark Details
+
+- Lists the Shapley value approximation techniques implemented.
+- Describes the evaluation metrics used to assess accuracy and efficiency.
+- Summarizes the datasets and models included in the benchmark suite.
+
+---
+
+### 📈 (c) Accuracy Evaluation
+
+- Visualizes performance variation across estimators using:
+  - **Boxplots** for accuracy distribution.
+  - **Critical Difference Diagrams** for rank-based comparison.
+- Supports evaluation by varying:
+  - Replacement strategies.
+  - Tractable estimation techniques.
+
+---
+
+### ⏱️ (d) Compute Time
+
+- Compares per-instance runtime of different estimators.
+- Includes:
+  - **Bar plots** for runtime comparison.
+  - **Line plots** showing the impact of input dimensionality.
+  - **Bubble plots** visualizing the accuracy-runtime tradeoff.
+
+---
+
+### 🧠 (e) Interactive Explanations
+
+- Upload a CSV dataset and pickled model (`.pkl`).
+- Choose a sample instance for explanation.
+- Generate Shapley values for that instance using the most effective method.
+- View a visual plot showing each feature’s contribution to the prediction.
+
+---
+
+## 🚀 Getting Started
+
+To launch locally:
+
+```bash
+git clone https://github.com/SuchitGupte/shapley_demo.git
+cd shapley_demo
+pip install -r requirements.txt
+streamlit run app.py
+```
 
 <h2 id="evaluation"> 3. Evaluation </h2>
 
